@@ -378,18 +378,19 @@
   .hero{
     border-radius:16px; border:1px solid var(--border-soft); background:
       radial-gradient(1200px 300px at 100% -10%, rgba(245,166,35,.14), transparent 60%), var(--surface);
-    padding:26px; display:flex; gap:26px; flex-wrap:wrap; align-items:center; margin-bottom:18px;
+    padding:26px; margin-bottom:18px;
   }
-  .hero-copy{ flex:1; min-width:260px; }
-  .hero-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--accent-strong); text-transform:uppercase; letter-spacing:.09em; font-weight:600; margin-bottom:10px; }
-  .hero h1{ font-size:30px; margin:0 0 10px; }
-  .hero p{ color:var(--text-dim); font-size:14px; max-width:520px; margin:0 0 16px; }
-  .hero-tier{
-    display:flex; flex-direction:column; gap:10px; background:var(--surface-2); border:1px solid var(--border);
-    border-radius:12px; padding:16px; min-width:230px;
+  .hero-compact{ padding:18px 22px; }
+  .hero-top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 16px; margin-bottom:8px; }
+  .hero-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--accent-strong); text-transform:uppercase; letter-spacing:.09em; font-weight:600; }
+  .hero-meta{ display:flex; flex-wrap:wrap; gap:7px; }
+  .meta-chip{
+    font-size:11.5px; color:var(--text-faint); background:var(--surface-2); border:1px solid var(--border);
+    border-radius:999px; padding:4px 11px; white-space:nowrap;
   }
-  .hero-tier .tt{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-faint); }
-  .hero-tier .tv{ font-family:'Sora',sans-serif; font-size:20px; }
+  .meta-chip b{ color:var(--text); font-weight:600; }
+  .hero h1{ font-size:22px; line-height:1.3; margin:0 0 8px; max-width:720px; }
+  .hero p{ color:var(--text-dim); font-size:13.5px; max-width:620px; margin:0 0 14px; }
 
   .quicknav{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px; }
   @media (max-width:760px){ .quicknav{ grid-template-columns:repeat(2,1fr); } }
@@ -680,29 +681,28 @@
 
     <!-- ===================== OVERVIEW ===================== -->
     <section class="page active" id="page-overview">
-      <div class="hero">
-        <div class="hero-copy">
+      <div class="hero hero-compact">
+        <div class="hero-top">
           <div class="hero-tag">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5 3.5 6v6c0 5 3.6 8.3 8.5 9.5 4.9-1.2 8.5-4.5 8.5-9.5V6L12 2.5Z"/></svg>
             <span id="heroTagSite">Live operations &middot; Corniche Pearl Mall</span>
           </div>
-          <h1 data-i18n="hero_h1">Footfall counts, repeat-visitor matches, loss-prevention cues: read straight off your cameras.</h1>
-          <p id="heroP">One entrance camera and a set of interior cameras, watching the floor in real time.</p>
-          <div class="head-controls">
-            <button class="btn primary" id="simToggle">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 4v16l14-8L6 4Z"/></svg>
-              <span id="simToggleLabel" data-i18n="sim_pause">Pause simulation</span>
-            </button>
-            <span class="pill live" id="simPill"><i class="dot"></i><span data-i18n="sim_live">Simulating live</span></span>
-            <button class="btn" id="resetBtn" data-i18n="reset_demo">Reset demo</button>
+          <div class="hero-meta" id="heroMeta">
+            <span class="meta-chip"><span data-i18n="tier_label">Deployment tier</span>: <b id="tierValueLabel">Small &middot; up to 4 cameras</b></span>
+            <span class="meta-chip"><span data-i18n="tier_mix_k">Camera mix</span>: <b id="tierMixValue">1 entrance &middot; 3 interior</b></span>
+            <span class="meta-chip"><span data-i18n="tier_modules_k">Modules live</span>: <b id="tierModulesValue">A + A+ + B (cues)</b></span>
+            <span class="meta-chip"><span data-i18n="tier_ai_k">AI reviewer</span>: <b id="tierAiValue">Not on this tier</b></span>
           </div>
         </div>
-        <div class="hero-tier">
-          <div class="tt" data-i18n="tier_label">Deployment tier</div>
-          <div class="tv" id="tierValueLabel">Small &middot; up to 4 cameras</div>
-          <div class="kv"><span data-i18n="tier_mix_k">Camera mix</span><span id="tierMixValue">1 entrance &middot; 3 interior</span></div>
-          <div class="kv"><span data-i18n="tier_modules_k">Modules live</span><span id="tierModulesValue">A + A+ + B (cues)</span></div>
-          <div class="kv"><span data-i18n="tier_ai_k">AI reviewer</span><span id="tierAiValue">Not on this tier</span></div>
+        <h1 data-i18n="hero_h1">Footfall counts, repeat-visitor matches, loss-prevention cues: read straight off your cameras.</h1>
+        <p id="heroP">One entrance camera and a set of interior cameras, watching the floor in real time.</p>
+        <div class="head-controls">
+          <button class="btn primary" id="simToggle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 4v16l14-8L6 4Z"/></svg>
+            <span id="simToggleLabel" data-i18n="sim_pause">Pause simulation</span>
+          </button>
+          <span class="pill live" id="simPill"><i class="dot"></i><span data-i18n="sim_live">Simulating live</span></span>
+          <button class="btn" id="resetBtn" data-i18n="reset_demo">Reset demo</button>
         </div>
       </div>
 
