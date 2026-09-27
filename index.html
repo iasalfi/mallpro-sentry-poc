@@ -588,7 +588,14 @@
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Loaded as a non-blocking preload so the app never waits on a font round trip to
+     become interactive: the UI renders and runs immediately on its fallback fonts,
+     then swaps in the web fonts the moment they arrive. -->
+<link rel="preload" as="style"
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+  onload="this.onload=null; this.rel='stylesheet';">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <div class="toast-wrap" id="toastWrap"></div>
 <div class="chart-tooltip" id="chartTooltip"></div>
@@ -710,7 +717,6 @@
             <span class="meta-chip"><span data-i18n="tier_label">Deployment tier</span>: <b id="tierValueLabel">Small &middot; up to 4 cameras</b></span>
             <span class="meta-chip"><span data-i18n="tier_mix_k">Camera mix</span>: <b id="tierMixValue">1 entrance &middot; 3 interior</b></span>
             <span class="meta-chip"><span data-i18n="tier_modules_k">Modules live</span>: <b id="tierModulesValue">A + A+ + B (cues)</b></span>
-            <span class="meta-chip"><span data-i18n="tier_ai_k">AI reviewer</span>: <b id="tierAiValue">Not on this tier</b></span>
           </div>
         </div>
         <h1 data-i18n="hero_h1">Footfall counts, repeat-visitor matches, loss-prevention cues: read straight off your cameras.</h1>
