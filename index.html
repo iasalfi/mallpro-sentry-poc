@@ -508,7 +508,7 @@
             Proof of concept &middot; synthetic data
           </div>
           <h1>Your cameras, turned into a live floor plan.</h1>
-          <p>This is a working walkthrough of MallPro's <b>Small</b> deployment tier, sized for one entrance and three interior cameras. Every number, face and alert on this build is generated locally in your browser &mdash; no real camera stream, footage or visitor is involved. It's here so you can click through the actual workspaces before any hardware ships.</p>
+          <p>This is the <b>Small</b> deployment tier &mdash; one entrance, three interior cameras &mdash; running live in your browser. Every number, every face, every alert here is made up on the spot. No real camera, no real footage, no real visitor anywhere in it. Click through the actual workspaces now, before a single piece of hardware ships.</p>
           <div class="head-controls">
             <button class="btn primary" id="simToggle">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 4v16l14-8L6 4Z"/></svg>
@@ -530,7 +530,7 @@
 
       <div class="note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-        <div>All figures below are synthetic and reset when you refresh or press <b>Reset demo</b>. In a real deployment this same layout runs on the appliance on your premises &mdash; video and visitor data never leave the site (see System &amp; Licence for the PDPL position).</div>
+        <div>Everything below is synthetic. Refresh, or hit <b>Reset demo</b>, and it starts over. In an actual deployment this same screen runs on an appliance sitting on your premises &mdash; video and visitor data don't leave the building. PDPL details are on the System &amp; Licence tab.</div>
       </div>
 
       <div class="section-row"><h2>Jump into a workspace</h2><span class="see">Small-tier scope</span></div>
@@ -639,14 +639,14 @@
         </div>
         <div class="card">
           <div class="card-title">What this camera is doing</div>
-          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6;">Positioned overhead at the doorway, exactly as recommended for accuracy. The amber line is the counting line; each tracked person gets a bounding box and ID, and a crossing is logged the instant the box passes the line &mdash; direction included, so double-counting on hesitation is filtered out.</p>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6;">It sits overhead at the doorway &mdash; that's the placement that actually holds up accuracy-wise. The amber line is the counting line. Every tracked person gets a box and an ID, and the instant that box crosses the line, direction and all, it's logged. Someone hesitates at the door and steps back? Doesn't get counted twice.</p>
           <div class="kv"><span>Accuracy target (pilot)</span><span>95&ndash;98%</span></div>
           <div class="kv"><span>Placement</span><span>Overhead, entrance</span></div>
           <div class="kv"><span>Two-line accuracy gate</span><span>Enabled</span></div>
           <div class="kv"><span>Wrong-direction alert</span><span>Armed</span></div>
           <div class="note" style="margin-top:12px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-            <div>This count is body detection, not face recognition. Abaya, hijab or niqab don't change it &mdash; every crossing is counted the same way. Face-dependent detail lives one tab over, in Visitors.</div>
+            <div>This is body detection, not face recognition &mdash; abaya, hijab, niqab, none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.</div>
           </div>
         </div>
       </div>
@@ -658,7 +658,7 @@
         <div>
           <div class="eyebrow">Module A+ &middot; Visitor insight (optional)</div>
           <h1 class="page-title">Visitors &amp; demographics</h1>
-          <p class="page-desc">Every crossing at the entrance line gets a gender and age-band estimate, from a face read where one is available and from body cues where it isn't. Aggregate only &mdash; no identity is stored or matched to a person.</p>
+          <p class="page-desc">Every crossing gets a gender and age-band estimate &mdash; a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.</p>
         </div>
         <div class="head-controls">
           <span class="pill">Face signatures: memory-only, auto-expire</span>
@@ -667,7 +667,7 @@
 
       <div class="card" style="margin-bottom:14px;">
         <div class="card-title">Face visibility in a KSA mall</div>
-        <p style="font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0 0 12px;">Hijab covers the hair, not the face, so it doesn't affect estimation at all &mdash; SCRFD still finds the face and InsightFace still reads it. <b>Niqab or burqa is the real variable</b>: the face is covered, but the covering itself is a strong gender signal, so MallPro still classifies the visit as <b>female</b> and falls back to a body-cue model &mdash; height, build and gait &mdash; for a coarser age band. Every such read is tagged <span class="mono">body-cue</span> with a lower confidence score, never presented as a face match. Use the control below to see how the mix shifts at a more conservative site.</p>
+        <p style="font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0 0 12px;">Hijab covers hair, not face. SCRFD still finds it, InsightFace still reads it &mdash; no change in estimation at all. <b>Niqab or burqa is the actual variable.</b> The face is gone, but the covering itself tells you something: MallPro still calls the visit <b>female</b>, then falls back to height, build and gait for a rougher age band. Every one of those reads gets tagged <span class="mono">body-cue</span> with a lower confidence score attached &mdash; it's never dressed up as a face match. Try the control below and watch the mix shift at a more conservative site.</p>
         <div class="chip-row" id="niqabRateRow">
           <span class="chip" data-rate="0.15">Low covering &middot; ~15%</span>
           <span class="chip active" data-rate="0.35">Typical mall &middot; ~35%</span>
@@ -722,7 +722,7 @@
         <div>
           <div class="eyebrow">Module B &middot; In-store safety &amp; loss prevention</div>
           <h1 class="page-title">Cues to check</h1>
-          <p class="page-desc">On the Small tier, interior cues are surfaced to staff directly &mdash; there's no AI reviewer stage yet. Every cue carries a camera, a confidence score and an evidence frame, never an unqualified accusation.</p>
+          <p class="page-desc">On Small, cues go straight to staff &mdash; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.</p>
         </div>
       </div>
 
@@ -774,7 +774,7 @@
           </table>
           <div class="note" style="margin-top:12px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-            <div>Mid and Max tiers add a reviewing AI pass before a cue reaches staff. On Small, every cue goes straight to this feed for a human decision.</div>
+            <div>Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that &mdash; every cue lands straight in this feed, and a person makes the call.</div>
           </div>
         </div>
       </div>
@@ -786,7 +786,7 @@
         <div>
           <div class="eyebrow">Module B &middot; Zone intelligence</div>
           <h1 class="page-title">Zones &amp; heatmap</h1>
-          <p class="page-desc">Queue length, dwell time and a rolling traffic heatmap, built from the same interior cameras used for loss prevention.</p>
+          <p class="page-desc">Queue length, dwell time, and a rolling heatmap of foot traffic &mdash; built off the same interior cameras doing loss prevention.</p>
         </div>
       </div>
 
