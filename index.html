@@ -862,7 +862,7 @@
     <section class="page" id="page-occupancy">
       <div class="page-head">
         <div>
-          <div class="eyebrow" data-i18n="occ_eyebrow">Module A &middot; Footfall &amp; occupancy</div>
+          <div class="eyebrow" data-i18n="occ_eyebrow">Footfall &amp; occupancy</div>
           <h1 class="page-title" data-i18n="occ_title">Live occupancy</h1>
           <p class="page-desc" data-i18n="occ_desc">Entrance camera &rarr; person tracking &rarr; directional line-crossing &rarr; live occupancy against site capacity.</p>
         </div>
@@ -946,7 +946,7 @@
     <section class="page" id="page-visitors">
       <div class="page-head">
         <div>
-          <div class="eyebrow" data-i18n="vis_eyebrow">Module A+ &middot; Visitor insight (optional)</div>
+          <div class="eyebrow" data-i18n="vis_eyebrow">Visitor insight (optional)</div>
           <h1 class="page-title" data-i18n="vis_title">Visitors &amp; demographics</h1>
           <p class="page-desc" data-i18n="vis_desc">Every crossing gets a gender and age-band estimate: a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.</p>
         </div>
@@ -1010,7 +1010,7 @@
     <section class="page" id="page-loss">
       <div class="page-head">
         <div>
-          <div class="eyebrow" data-i18n="loss_eyebrow">Module B &middot; In-store safety &amp; loss prevention</div>
+          <div class="eyebrow" data-i18n="loss_eyebrow">In-store safety &amp; loss prevention</div>
           <h1 class="page-title" data-i18n="loss_title">Cues to check</h1>
           <p class="page-desc" data-i18n="loss_desc">On Small, cues go straight to staff; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.</p>
         </div>
@@ -1074,7 +1074,7 @@
     <section class="page" id="page-zones">
       <div class="page-head">
         <div>
-          <div class="eyebrow" data-i18n="zones_eyebrow">Module B &middot; Zone intelligence</div>
+          <div class="eyebrow" data-i18n="zones_eyebrow">Zone intelligence</div>
           <h1 class="page-title" data-i18n="zones_title">Zones &amp; heatmap</h1>
           <p class="page-desc" data-i18n="zones_desc">Queue length, dwell time, and a rolling heatmap of foot traffic, built off the same interior cameras doing loss prevention.</p>
         </div>
@@ -1589,7 +1589,7 @@ var STR = {
   qn_cameras:{en:"The 4-camera estate this package licenses, with health and stream role.", ar:"منشأة الكاميرات الأربع المرخّصة ضمن هذه الباقة، مع الحالة ودور كل بث."},
   qn_system:{en:"Appliance load, support SLA and how data stays on-premises.", ar:"حمل الجهاز، اتفاقية مستوى الدعم، وكيفية بقاء البيانات داخل المنشأة."},
   qn_report:{en:"Repeat-visitor breakdown and an exportable summary of everything above.", ar:"تفصيل الزوار المتكررين وملخّص قابل للتصدير لكل ما سبق."},
-  occ_eyebrow:{en:"Module A &middot; Footfall &amp; occupancy", ar:"الوحدة A &middot; حركة الزوار والإشغال"},
+  occ_eyebrow:{en:"Footfall &amp; occupancy", ar:"حركة الزوار والإشغال"},
   occ_title:{en:"Live occupancy", ar:"الإشغال المباشر"},
   occ_desc:{en:"Entrance camera &rarr; person tracking &rarr; directional line-crossing &rarr; live occupancy against site capacity.", ar:"كاميرا المدخل &larr; تتبّع الأفراد &larr; عبور خط باتجاه محدد &larr; إشغال مباشر مقابل سعة الموقع."},
   reset_counters:{en:"Reset counters", ar:"إعادة ضبط العدّادات"},
@@ -1610,7 +1610,7 @@ var STR = {
   occ_kv_wrongdir:{en:"Wrong-direction alert", ar:"تنبيه الاتجاه الخاطئ"}, armed:{en:"Armed", ar:"مسلَّح"},
   occ_note:{en:"This is body detection, not face recognition. Abaya, hijab, niqab: none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.",
     ar:"هذا كشف للجسم لا للوجه. العباية أو الحجاب أو النقاب، لا شيء من ذلك يغيّر العدّ. كل عبور يُحسب بالطريقة نفسها. أي شيء يعتمد على الوجه موجود في التبويب المجاور، الزوار."},
-  vis_eyebrow:{en:"Module A+ &middot; Visitor insight (optional)", ar:"الوحدة A+ &middot; رؤى الزوار (اختياري)"},
+  vis_eyebrow:{en:"Visitor insight (optional)", ar:"رؤى الزوار (اختياري)"},
   vis_title:{en:"Visitors &amp; demographics", ar:"الزوار والتركيبة السكانية"},
   vis_desc:{en:"Every crossing gets a gender and age-band estimate: a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.",
     ar:"يحصل كل عبور على تقدير للجنس والفئة العمرية: قراءة وجه حيثما وُجد وجه، وإشارات جسدية حيثما لم يوجد. البيانات إجمالية فقط. لا تُخزَّن ولا تُطابَق هوية أي شخص."},
@@ -1627,7 +1627,7 @@ var STR = {
   vis_captured:{en:"Captured visitors", ar:"الزوار المرصودون"},
   filter_all:{en:"All", ar:"الكل"}, filter_entered:{en:"Entered", ar:"داخل"}, filter_exited:{en:"Exited", ar:"خارج"},
   filter_bodycue:{en:"Body-cue estimate", ar:"تقدير بإشارة جسدية"},
-  loss_eyebrow:{en:"Module B &middot; In-store safety &amp; loss prevention", ar:"الوحدة B &middot; السلامة الداخلية ومنع الفقد"},
+  loss_eyebrow:{en:"In-store safety &amp; loss prevention", ar:"السلامة الداخلية ومنع الفقد"},
   loss_title:{en:"Cues to check", ar:"إشارات للمراجعة"},
   loss_desc:{en:"On Small, cues go straight to staff; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.",
     ar:"في الفئة الصغرى، تذهب الإشارات مباشرة إلى الموظفين، دون مراجع ذكاء اصطناعي أمامها بعد. تأتي كل إشارة مع كاميرا، ودرجة ثقة، وإطار إثبات. لا اتهام مجرّد أبدًا."},
@@ -1648,7 +1648,7 @@ var STR = {
   cam_stockroom:{en:"Stockroom Corridor", ar:"ممر المستودع"},
   loss_note:{en:"Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that: every cue lands straight in this feed, and a person makes the call.",
     ar:"تضيف الفئتان المتوسطة والقصوى مراجعة ذكاء اصطناعي قبل وصول أي إشارة لأحد. تتجاوز الفئة الصغرى ذلك: تصل كل إشارة مباشرة إلى هذا الموجز، ويتخذ القرار شخص."},
-  zones_eyebrow:{en:"Module B &middot; Zone intelligence", ar:"الوحدة B &middot; ذكاء المناطق"},
+  zones_eyebrow:{en:"Zone intelligence", ar:"ذكاء المناطق"},
   zones_title:{en:"Zones &amp; heatmap", ar:"المناطق والخريطة الحرارية"},
   zones_desc:{en:"Queue length, dwell time, and a rolling heatmap of foot traffic, built off the same interior cameras doing loss prevention.",
     ar:"طول الطابور، زمن التمكث، وخريطة حرارية متجددة لحركة الزوار، مبنية على نفس الكاميرات الداخلية الخاصة بمنع الفقد."},
