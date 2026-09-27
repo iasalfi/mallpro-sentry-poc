@@ -471,6 +471,68 @@
   .analytics-card .card-title{ font-size:13px; letter-spacing:.02em; text-transform:none; color:var(--text); font-weight:600; }
   .analytics-sub{ font-size:11.5px; color:var(--text-faint); margin:-4px 0 12px; }
 
+  /* ---------- camera health ring widget ---------- */
+  .health-widget{ display:flex; align-items:center; gap:16px; }
+  .health-ring{ flex:none; }
+  .health-ring text{ font-family:'Sora',sans-serif; }
+  .health-breakdown{ display:flex; flex-direction:column; gap:6px; flex:1; min-width:0; }
+  .health-row{ display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text-dim); }
+  .health-row .sw{ width:9px;height:9px;border-radius:50%; flex:none; }
+  .health-row b{ margin-inline-start:auto; font-family:'IBM Plex Mono',monospace; color:var(--text); }
+  .health-widget.compact{ gap:12px; }
+  .health-widget.compact .health-ring{ width:58px; height:58px; }
+
+  /* ---------- filter bars (Report / Analytics) ---------- */
+  .filter-bar{ background:var(--surface); border:1px solid var(--border-soft); border-radius:12px; padding:14px 16px; margin-bottom:14px; }
+  .filter-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; align-items:end; }
+  @media (max-width:900px){ .filter-grid{ grid-template-columns:repeat(2,1fr); } }
+  .filter-field label{ display:block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); margin-bottom:5px; }
+  .filter-field select, .filter-field input[type="text"], .filter-field input[type="datetime-local"], .filter-field input[type="date"]{
+    width:100%; font-size:12.5px; padding:6px 8px; border-radius:7px; border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-family:inherit;
+  }
+  .filter-field select:focus-visible, .filter-field input:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:1px; }
+  .filter-clear{ grid-column: -1 / -1; justify-self:end; }
+  @media (max-width:900px){ .filter-clear{ grid-column: 1 / -1; justify-self:start; } }
+
+  /* ---------- sparkline / mini charts ---------- */
+  .spark-row{ display:flex; align-items:center; gap:10px; margin-top:6px; }
+  .spark-row svg{ flex:1; height:26px; }
+
+  /* ---------- live date/time/temperature widget ---------- */
+  .live-widget{
+    display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px;
+    background:var(--surface-2); border:1px solid var(--border); margin:0 10px 12px;
+  }
+  .live-widget .lw-icon{ width:28px;height:28px; flex:none; display:flex; align-items:center; justify-content:center; }
+  .live-widget .lw-body{ flex:1; min-width:0; }
+  .live-widget .lw-time{ font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; direction:ltr; }
+  .live-widget .lw-date{ font-size:10.5px; color:var(--text-faint); }
+  .live-widget .lw-temp{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--accent-strong); text-align:right; flex:none; direction:ltr; }
+  .live-widget.card-style{ margin:0; }
+
+  /* ---------- overview KPI trend & Support/SLA ---------- */
+  .kpi-trend-row{ display:flex; align-items:center; gap:6px; margin-top:2px; }
+  .sla-remaining{ font-size:10.5px; font-family:'IBM Plex Mono',monospace; padding:2px 7px; border-radius:20px; white-space:nowrap; }
+  .sla-remaining.ok{ background:var(--good-ink); color:var(--good); }
+  .sla-remaining.warn{ background:rgba(245,166,35,.16); color:var(--accent-strong); }
+  .sla-remaining.bad{ background:var(--bad-ink); color:var(--bad); }
+  .status-chip.open{ background:rgba(245,166,35,.14); color:var(--accent-strong); }
+  .status-chip.inprogress{ background:rgba(91,157,255,.14); color:var(--info); }
+  .status-chip.resolved{ background:var(--good-ink); color:var(--good); }
+  .status-chip.breached{ background:var(--bad-ink); color:var(--bad); }
+  .prio-badge{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:5px; }
+  .prio-badge.P1{ background:var(--bad-ink); color:var(--bad); }
+  .prio-badge.P2{ background:rgba(245,166,35,.16); color:var(--accent-strong); }
+  .prio-badge.P3{ background:rgba(91,157,255,.14); color:var(--info); }
+  .prio-badge.P4{ background:var(--surface-3); color:var(--text-faint); }
+  .ticket-form-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  @media (max-width:760px){ .ticket-form-grid{ grid-template-columns:1fr; } }
+  .ticket-form-grid textarea{
+    width:100%; font-size:12.5px; padding:8px; border-radius:7px; border:1px solid var(--border); background:var(--surface-2);
+    color:var(--text); font-family:inherit; resize:vertical; min-height:60px;
+  }
+  .ticket-form-grid select{ width:100%; font-size:12.5px; padding:6px 8px; border-radius:7px; border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-family:inherit; }
+
   /* ---------- RTL / Arabic ---------- */
   html[dir="rtl"] body{ font-family:'IBM Plex Sans Arabic','IBM Plex Sans',system-ui,sans-serif; }
   html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] .display{
@@ -536,6 +598,15 @@
       </div>
     </div>
 
+    <div class="live-widget" id="sidebarLiveWidget">
+      <div class="lw-icon" id="sidebarLiveIcon"></div>
+      <div class="lw-body">
+        <div class="lw-time mono" id="sidebarLiveTime">--:--:--</div>
+        <div class="lw-date" id="sidebarLiveDate">&nbsp;</div>
+      </div>
+      <div class="lw-temp" id="sidebarLiveTemp">--&deg;C</div>
+    </div>
+
     <div class="ctrl-row">
       <button class="ctrl-btn" id="langToggle" title="Switch language">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 6 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-6-3.8-9s1.3-6.5 3.8-9Z"/></svg>
@@ -592,10 +663,15 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V10m6 10V4m6 16v-7m6 7V8"/></svg>
       <span data-i18n="nav_analytics">Analytics &amp; Predictions</span>
     </button>
+    <button class="nav-btn" data-page="support">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.5 3.5 6v6c0 5 3.6 8.3 8.5 9.5 4.9-1.2 8.5-4.5 8.5-9.5V6L12 2.5Z"/><path d="M12 8v4.5l3 2"/></svg>
+      <span data-i18n="nav_support">Support &amp; SLA</span>
+      <span class="nav-badge" id="navTicketBadge">0</span>
+    </button>
 
     <div class="sidebar-foot">
       <div><b data-i18n="foot_appliance">Appliance:</b> EDGE-SM-01</div>
-      <div><b data-i18n="foot_site">Site:</b> <span id="footSiteName">&mdash;</span></div>
+      <div><b data-i18n="foot_site">Site:</b> <span id="footSiteName">-</span></div>
       <div id="footClock" class="mono">--:--:--</div>
     </div>
   </aside>
@@ -610,7 +686,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5 3.5 6v6c0 5 3.6 8.3 8.5 9.5 4.9-1.2 8.5-4.5 8.5-9.5V6L12 2.5Z"/></svg>
             <span id="heroTagSite">Live operations &middot; Corniche Pearl Mall</span>
           </div>
-          <h1 data-i18n="hero_h1">Your cameras, turned into a live floor plan.</h1>
+          <h1 data-i18n="hero_h1">Footfall counts, repeat-visitor matches, loss-prevention cues: read straight off your cameras.</h1>
           <p id="heroP">One entrance camera and a set of interior cameras, watching the floor in real time.</p>
           <div class="head-controls">
             <button class="btn primary" id="simToggle">
@@ -630,9 +706,67 @@
         </div>
       </div>
 
+      <div class="section-row" style="margin-top:6px;"><h2 data-i18n="ov_kpi_title">Right now, at this site</h2><span class="see" id="ovKpiClockLabel">&nbsp;</span></div>
+      <div class="grid cols-4" id="ovKpiRow">
+        <div class="card stat-card">
+          <div class="stat-label" data-i18n="ov_kpi_occ">Occupancy vs capacity</div>
+          <div class="stat-value" id="ovKpiOcc">0</div>
+          <div class="stat-sub" id="ovKpiOccSub">of 0</div>
+          <div class="kpi-trend-row"><span class="stat-delta" id="ovKpiOccTrend">+0</span><svg id="ovSparkOcc" viewBox="0 0 120 26" style="width:64px;height:22px;" preserveAspectRatio="none"></svg></div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label" data-i18n="ov_kpi_visits">Visits today</div>
+          <div class="stat-value" id="ovKpiVisits">0</div>
+          <div class="stat-sub" id="ovKpiVisitsSub">&nbsp;</div>
+          <div class="kpi-trend-row"><span class="stat-delta" id="ovKpiVisitsTrend">+0</span><svg id="ovSparkVisits" viewBox="0 0 120 26" style="width:64px;height:22px;" preserveAspectRatio="none"></svg></div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label" data-i18n="ov_kpi_alerts">Open loss-prevention cues</div>
+          <div class="stat-value" id="ovKpiAlerts">0</div>
+          <div class="stat-sub" id="ovKpiAlertsSub">&nbsp;</div>
+          <div class="kpi-trend-row"><span class="risk-badge low" id="ovKpiRiskBadge">Low</span></div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label" data-i18n="ov_kpi_camhealth">Camera fleet health</div>
+          <div class="stat-value" id="ovKpiCamHealthPct">100%</div>
+          <div class="stat-sub" id="ovKpiCamHealthSub">0 / 0 online</div>
+          <div class="kpi-trend-row"><span class="stat-delta" id="ovKpiRiskTrend">Risk index 0/100</span></div>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:14px; align-items:start;">
+        <div class="card">
+          <div class="card-title" data-i18n="ov_occtrend_title">Occupancy, last 6 minutes</div>
+          <svg id="ovOccChart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="card">
+          <div class="card-title" data-i18n="ov_visits7d_title">Visits, last 7 days</div>
+          <svg id="ovVisits7dChart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:14px; align-items:start;">
+        <div class="card">
+          <div class="card-title" data-i18n="ov_camhealth_title">Camera fleet at a glance</div>
+          <div id="ovCamHealthWidget"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" data-i18n="ov_clock_title">Site clock</div>
+          <div class="live-widget card-style" id="ovLiveWidget">
+            <div class="lw-icon" id="ovLiveIcon"></div>
+            <div class="lw-body">
+              <div class="lw-time mono" id="ovLiveTime" style="font-size:22px;">--:--:--</div>
+              <div class="lw-date" id="ovLiveDate">&nbsp;</div>
+            </div>
+            <div class="lw-temp" id="ovLiveTemp" style="font-size:18px;">--&deg;C</div>
+          </div>
+          <p class="stat-sub" style="margin-top:10px;" data-i18n="ov_clock_note">A deterministic reading tied to this device's clock and Jeddah's usual daily temperature curve, not a live weather feed.</p>
+        </div>
+      </div>
+
       <div class="note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-        <div data-i18n="overview_note">This screen runs on an appliance sitting on your premises &mdash; video and visitor data don't leave the building. PDPL details are on the System &amp; Licence tab.</div>
+        <div data-i18n="overview_note">This screen runs on an appliance sitting on your premises. Video and visitor data don't leave the building; PDPL details are on the System &amp; Licence tab.</div>
       </div>
 
       <div class="section-row"><h2 data-i18n="store_location">Store location</h2><span class="see" id="siteLocationSub">Jeddah, Saudi Arabia</span></div>
@@ -640,10 +774,10 @@
         <div class="map-schematic" id="mapSchematic" style="min-height:180px;"></div>
         <div class="card">
           <div class="card-title" data-i18n="loc_details">Site details</div>
-          <div class="kv"><span data-i18n="loc_mall">Mall</span><span id="locMallName">&mdash;</span></div>
-          <div class="kv"><span data-i18n="loc_district">District</span><span id="locDistrict">&mdash;</span></div>
+          <div class="kv"><span data-i18n="loc_mall">Mall</span><span id="locMallName">-</span></div>
+          <div class="kv"><span data-i18n="loc_district">District</span><span id="locDistrict">-</span></div>
           <div class="kv"><span data-i18n="loc_city">City</span><span data-i18n="loc_city_v">Jeddah, Makkah Region</span></div>
-          <div class="kv"><span data-i18n="loc_coords">Coordinates</span><span class="mono" id="locCoords">&mdash;</span></div>
+          <div class="kv"><span data-i18n="loc_coords">Coordinates</span><span class="mono" id="locCoords">-</span></div>
           <div class="head-controls" style="margin-top:12px;">
             <a class="btn small" id="locOsmLink" target="_blank" rel="noopener">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
@@ -669,7 +803,7 @@
         <button class="qn-card" data-goto="loss">
           <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 7v5c0 4.5 3.3 7.5 8 9 4.7-1.5 8-4.5 8-9V7l-8-4Z"/></svg></div>
           <b data-i18n="nav_loss">Loss Prevention</b>
-          <span data-i18n="qn_loss">Interior cues to check &mdash; concealment, after-hours, restricted area.</span>
+          <span data-i18n="qn_loss">Interior cues to check: concealment, after-hours, restricted area.</span>
         </button>
         <button class="qn-card" data-goto="zones">
           <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8.5 12 4l9 4.5-9 4.5-9-4.5Z"/></svg></div>
@@ -770,14 +904,14 @@
         </div>
         <div class="card">
           <div class="card-title" data-i18n="occ_camdoing">What this camera is doing</div>
-          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6;" data-i18n="occ_camdoing_p">It sits overhead at the doorway &mdash; that's the placement that actually holds up accuracy-wise. The amber line is the counting line. Every tracked person gets a box and an ID, and the instant that box crosses the line, direction and all, it's logged. Someone hesitates at the door and steps back? Doesn't get counted twice.</p>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6;" data-i18n="occ_camdoing_p">It sits overhead at the doorway, the placement that actually holds up accuracy-wise. The amber line is the counting line. Every tracked person gets a box and an ID, and the instant that box crosses the line, direction and all, it's logged. Someone hesitates at the door and steps back? They don't get counted twice.</p>
           <div class="kv"><span data-i18n="occ_kv_accuracy">Accuracy target (pilot)</span><span>95&ndash;98%</span></div>
           <div class="kv"><span data-i18n="occ_kv_placement">Placement</span><span data-i18n="occ_kv_placement_v">Overhead, entrance</span></div>
           <div class="kv"><span data-i18n="occ_kv_twoline">Two-line accuracy gate</span><span data-i18n="enabled">Enabled</span></div>
           <div class="kv"><span data-i18n="occ_kv_wrongdir">Wrong-direction alert</span><span data-i18n="armed">Armed</span></div>
           <div class="note" style="margin-top:12px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-            <div data-i18n="occ_note">This is body detection, not face recognition &mdash; abaya, hijab, niqab, none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.</div>
+            <div data-i18n="occ_note">This is body detection, not face recognition. Abaya, hijab, niqab: none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.</div>
           </div>
         </div>
       </div>
@@ -789,7 +923,7 @@
         <div>
           <div class="eyebrow" data-i18n="vis_eyebrow">Module A+ &middot; Visitor insight (optional)</div>
           <h1 class="page-title" data-i18n="vis_title">Visitors &amp; demographics</h1>
-          <p class="page-desc" data-i18n="vis_desc">Every crossing gets a gender and age-band estimate &mdash; a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.</p>
+          <p class="page-desc" data-i18n="vis_desc">Every crossing gets a gender and age-band estimate: a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.</p>
         </div>
         <div class="head-controls">
           <span class="pill" data-i18n="vis_facesig">Face signatures: memory-only, auto-expire</span>
@@ -798,7 +932,7 @@
 
       <div class="card" style="margin-bottom:14px;">
         <div class="card-title" data-i18n="vis_facevis_title">Face visibility in a KSA mall</div>
-        <p style="font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0 0 12px;" data-i18n="vis_facevis_p">Hijab covers hair, not face. SCRFD still finds it, InsightFace still reads it &mdash; no change in estimation at all. <b>Niqab or burqa is the actual variable.</b> The face is gone, but the covering itself tells you something: MallPro still calls the visit <b>female</b>, then falls back to height, build and gait for a rougher age band. Every one of those reads gets tagged <span class="mono">body-cue</span> with a lower confidence score attached &mdash; it's never dressed up as a face match. Try the control below and watch the mix shift at a more conservative site.</p>
+        <p style="font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0 0 12px;" data-i18n="vis_facevis_p">Hijab covers hair, not face. SCRFD still finds it, InsightFace still reads it, so there's no change in estimation at all. <b>Niqab or burqa is the actual variable.</b> The face is gone, but the covering itself tells you something: MallPro still calls the visit <b>female</b>, then falls back to height, build and gait for a rougher age band. Every one of those reads gets tagged <span class="mono">body-cue</span> with a lower confidence score attached; it's never dressed up as a face match. Try the control below and watch the mix shift at a more conservative site.</p>
         <div class="chip-row" id="niqabRateRow">
           <span class="chip" data-rate="0.15" data-i18n="niqab_low">Low covering &middot; ~15%</span>
           <span class="chip active" data-rate="0.35" data-i18n="niqab_typical">Typical mall &middot; ~35%</span>
@@ -853,7 +987,7 @@
         <div>
           <div class="eyebrow" data-i18n="loss_eyebrow">Module B &middot; In-store safety &amp; loss prevention</div>
           <h1 class="page-title" data-i18n="loss_title">Cues to check</h1>
-          <p class="page-desc" data-i18n="loss_desc">On Small, cues go straight to staff &mdash; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.</p>
+          <p class="page-desc" data-i18n="loss_desc">On Small, cues go straight to staff; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.</p>
         </div>
       </div>
 
@@ -878,7 +1012,7 @@
 
       <div class="card" style="margin-top:14px;">
         <div class="card-title" data-i18n="loss_demo_title">Demo controls &middot; simulate a cue</div>
-        <p style="font-size:12px;color:var(--text-faint); margin:0 0 10px;" data-i18n="loss_demo_p">Trigger a scenario live to see the review workflow in action &mdash; useful when walking a stakeholder through the product.</p>
+        <p style="font-size:12px;color:var(--text-faint); margin:0 0 10px;" data-i18n="loss_demo_p">Trigger a scenario live to see the review workflow in action, useful when walking a stakeholder through the product.</p>
         <div class="head-controls" id="simButtons"></div>
         <div class="head-controls" style="margin-top:10px;">
           <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text-dim);">
@@ -905,7 +1039,7 @@
           </table>
           <div class="note" style="margin-top:12px;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-            <div data-i18n="loss_note">Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that &mdash; every cue lands straight in this feed, and a person makes the call.</div>
+            <div data-i18n="loss_note">Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that: every cue lands straight in this feed, and a person makes the call.</div>
           </div>
         </div>
       </div>
@@ -917,7 +1051,7 @@
         <div>
           <div class="eyebrow" data-i18n="zones_eyebrow">Module B &middot; Zone intelligence</div>
           <h1 class="page-title" data-i18n="zones_title">Zones &amp; heatmap</h1>
-          <p class="page-desc" data-i18n="zones_desc">Queue length, dwell time, and a rolling heatmap of foot traffic &mdash; built off the same interior cameras doing loss prevention.</p>
+          <p class="page-desc" data-i18n="zones_desc">Queue length, dwell time, and a rolling heatmap of foot traffic, built off the same interior cameras doing loss prevention.</p>
         </div>
       </div>
 
@@ -984,6 +1118,10 @@
         </div>
         <div class="head-controls"><span class="pill" id="camsLicensedLabel">4 / 4 cameras licensed</span></div>
       </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title" data-i18n="cams_health_title">Fleet health at a glance</div>
+        <div id="camsHealthWidget"></div>
+      </div>
       <div class="grid cols-2" id="cameraCards"></div>
     </section>
 
@@ -1048,7 +1186,7 @@
         <div>
           <div class="eyebrow" data-i18n="rep_eyebrow">Cross-module &middot; Reporting</div>
           <h1 class="page-title" data-i18n="rep_title">Visitor &amp; operations report</h1>
-          <p class="page-desc" data-i18n="rep_desc">A rollup of this site's activity, including which visitors have been seen coming back &mdash; MallPro re-recognises a returning shopper by the same face or body-cue signature, never by identity.</p>
+          <p class="page-desc" data-i18n="rep_desc">A rollup of this site's activity, including which visitors have been seen coming back. MallPro re-recognises a returning shopper by the same face or body-cue signature, never by identity.</p>
         </div>
         <div class="head-controls">
           <button class="btn small" id="reportCopyBtn">
@@ -1056,6 +1194,48 @@
             <span data-i18n="rep_copy">Copy report as CSV</span>
           </button>
         </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="card-title" data-i18n="rep_filters_title">Build a filtered view</div>
+        <div class="filter-grid">
+          <div class="filter-field">
+            <label data-i18n="rep_filter_from">From</label>
+            <input type="datetime-local" id="repFilterFrom">
+          </div>
+          <div class="filter-field">
+            <label data-i18n="rep_filter_to">To</label>
+            <input type="datetime-local" id="repFilterTo">
+          </div>
+          <div class="filter-field">
+            <label data-i18n="rep_filter_visittype">Visit type</label>
+            <select id="repFilterVisitType">
+              <option value="all" data-i18n="filter_all">All</option>
+              <option value="first" data-i18n="rep_filter_firsttime">First-time</option>
+              <option value="returning" data-i18n="rep_returning">Repeat visitors</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label data-i18n="an_filter_gender">Gender</label>
+            <select id="repFilterGender">
+              <option value="all" data-i18n="segment_all">All visitors</option>
+              <option value="M" data-i18n="gender_male">Male</option>
+              <option value="F" data-i18n="gender_female">Female</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label data-i18n="an_filter_zone">Zone</label>
+            <select id="repFilterZone"></select>
+          </div>
+        </div>
+        <div class="filter-grid" style="margin-top:10px; grid-template-columns:1fr auto;">
+          <div class="filter-field">
+            <label data-i18n="rep_filter_search">Search by profile ID</label>
+            <input type="text" id="repFilterSearch" placeholder="V-0001">
+          </div>
+          <button class="btn small filter-clear" id="repFilterClear" data-i18n="rep_filter_clear">Clear filters</button>
+        </div>
+        <div class="analytics-sub" id="repFilterSummary" style="margin:10px 0 0;">&nbsp;</div>
       </div>
 
       <div class="grid cols-4">
@@ -1116,7 +1296,7 @@
       </div>
       <div class="note" style="margin-top:16px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
-        <div data-i18n="rep_note">Nothing here is a real identity: "repeat visitor" just means the same face or body-cue signature was seen again on a later crossing &mdash; MallPro re-recognises a returning shopper without ever storing who they are.</div>
+        <div data-i18n="rep_note">Nothing here is a real identity: "repeat visitor" just means the same face or body-cue signature was seen again on a later crossing. MallPro re-recognises a returning shopper without ever storing who they are.</div>
       </div>
     </section>
 
@@ -1126,7 +1306,7 @@
         <div>
           <div class="eyebrow" data-i18n="an_eyebrow">Predictive layer</div>
           <h1 class="page-title" data-i18n="an_title">Analytics &amp; predictions</h1>
-          <p class="page-desc" data-i18n="an_desc">Forecasts and risk scoring built on top of this site's live feed &mdash; where footfall is heading, when it peaks, and where loss-prevention risk is trending.</p>
+          <p class="page-desc" data-i18n="an_desc">Forecasts and risk scoring built on top of this site's live feed: where footfall is heading, when it peaks, and where loss-prevention risk is trending.</p>
         </div>
       </div>
 
@@ -1140,6 +1320,11 @@
               <span class="chip" data-range="7" data-i18n="range_7">7 days</span>
               <span class="chip active" data-range="14" data-i18n="range_14">14 days</span>
               <span class="chip" data-range="30" data-i18n="range_30">30 days</span>
+              <span class="chip" data-range="custom" data-i18n="range_custom">Custom range</span>
+            </div>
+            <div class="filter-grid" id="anCustomRangeRow" style="grid-template-columns:1fr 1fr; margin-top:8px; display:none;">
+              <div class="filter-field"><label data-i18n="rep_filter_from">From</label><input type="date" id="anCustomFrom"></div>
+              <div class="filter-field"><label data-i18n="rep_filter_to">To</label><input type="date" id="anCustomTo"></div>
             </div>
           </div>
           <div>
@@ -1161,6 +1346,14 @@
             </div>
           </div>
         </div>
+        <div style="margin-top:12px;">
+          <label style="font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); display:block; margin-bottom:6px;" data-i18n="an_filter_visittype">Visit type</label>
+          <div class="chip-row" id="anVisitTypeFilter">
+            <span class="chip active" data-visittype="all" data-i18n="filter_all">All</span>
+            <span class="chip" data-visittype="first" data-i18n="rep_filter_firsttime">First-time</span>
+            <span class="chip" data-visittype="returning" data-i18n="rep_returning">Repeat visitors</span>
+          </div>
+        </div>
       </div>
 
       <div class="grid cols-3">
@@ -1171,7 +1364,7 @@
         </div>
         <div class="analytics-card">
           <div class="card-title" data-i18n="an_busiest_kpi">Busiest predicted hour</div>
-          <div class="kpi-big"><span class="num mono" id="anBusiestHour" style="direction:ltr;">&mdash;</span></div>
+          <div class="kpi-big"><span class="num mono" id="anBusiestHour" style="direction:ltr;">-</span></div>
           <div class="analytics-sub" id="anBusiestDay" style="margin-top:8px;">&nbsp;</div>
         </div>
         <div class="analytics-card">
@@ -1213,6 +1406,105 @@
       </div>
     </section>
 
+    <!-- ===================== SUPPORT & SLA ===================== -->
+    <section class="page" id="page-support">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow" data-i18n="sup_eyebrow">ITSM &middot; Service desk</div>
+          <h1 class="page-title" data-i18n="sup_title">Support &amp; SLA</h1>
+          <p class="page-desc" data-i18n="sup_desc">The ticket queue for this deployment: every camera fault, storage warning and tuning request raised against this site, tracked against the response and resolution targets in the service catalog below.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-4">
+        <div class="card stat-card">
+          <div class="stat-value" id="supAvgResponse">0m</div>
+          <div class="stat-label" data-i18n="sup_kpi_response">Avg. response time</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="supAvgResolution">0h</div>
+          <div class="stat-label" data-i18n="sup_kpi_resolution">Avg. resolution time</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="supCompliance">0%</div>
+          <div class="stat-label" data-i18n="sup_kpi_compliance">SLA compliance</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value" id="supOpenCount">0</div>
+          <div class="stat-label" data-i18n="sup_kpi_open">Open tickets</div>
+          <div class="stat-sub" id="supBreachedSub">0 breached</div>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:14px; align-items:start;">
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-title" data-i18n="sup_queue_title">Ticket queue</div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <tr>
+                <th data-i18n="sup_th_id">Ticket</th>
+                <th data-i18n="sup_th_priority">Priority</th>
+                <th data-i18n="sup_th_category">Category</th>
+                <th data-i18n="sup_th_status">Status</th>
+                <th data-i18n="sup_th_opened">Opened</th>
+                <th data-i18n="sup_th_due">SLA due</th>
+                <th data-i18n="sup_th_remaining">Remaining</th>
+              </tr>
+              <tbody id="supTicketBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:14px; align-items:start;">
+        <div class="card">
+          <div class="card-title" data-i18n="sup_policy_title">Service-level catalog</div>
+          <div class="analytics-sub" data-i18n="sup_policy_sub">Response and resolution targets by ticket priority for this deployment</div>
+          <table class="data-table">
+            <tr>
+              <th data-i18n="sup_th_priority">Priority</th>
+              <th data-i18n="sup_th_response_target">Response target</th>
+              <th data-i18n="sup_th_resolution_target">Resolution target</th>
+            </tr>
+            <tbody id="supPolicyBody"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title" data-i18n="sup_raise_title">Raise a ticket</div>
+          <p class="stat-sub" style="margin-bottom:10px;" data-i18n="sup_raise_note">Opens a ticket in this session's queue, with its due time set from the catalog on the left.</p>
+          <div class="ticket-form-grid">
+            <div class="filter-field">
+              <label data-i18n="sup_th_category">Category</label>
+              <select id="supNewCategory">
+                <option value="camera_offline" data-i18n="sup_cat_camera">Camera offline</option>
+                <option value="storage" data-i18n="sup_cat_storage">Storage capacity</option>
+                <option value="false_alert" data-i18n="sup_cat_falsealert">False alert rate</option>
+                <option value="network" data-i18n="sup_cat_network">Network</option>
+                <option value="access" data-i18n="sup_cat_access">Access request</option>
+                <option value="other" data-i18n="sup_cat_other">Other</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label data-i18n="sup_th_priority">Priority</label>
+              <select id="supNewPriority">
+                <option value="P1">P1</option>
+                <option value="P2" selected>P2</option>
+                <option value="P3">P3</option>
+                <option value="P4">P4</option>
+              </select>
+            </div>
+            <div class="filter-field" style="grid-column:1/-1;">
+              <label data-i18n="sup_desc_label">Description</label>
+              <textarea id="supNewDesc" placeholder="What's going on?"></textarea>
+            </div>
+          </div>
+          <div class="head-controls" style="margin-top:10px;">
+            <button class="btn primary small" id="supRaiseBtn" data-i18n="sup_raise_btn">Open ticket</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -1250,9 +1542,9 @@ var STR = {
   nav_group_reports:{en:"Reports", ar:"التقارير"}, nav_report:{en:"Report", ar:"التقرير"},
   foot_appliance:{en:"Appliance:", ar:"الجهاز:"}, foot_site:{en:"Site:", ar:"الموقع:"},
   hero_tag:{en:"Proof of concept &middot; synthetic data", ar:"إثبات مفهوم &middot; بيانات تركيبية"},
-  hero_h1:{en:"Your cameras, turned into a live floor plan.", ar:"كاميراتك، وقد تحوّلت إلى مخطط أرضي مباشر."},
-  hero_p_tpl:{en:"One entrance camera and {n} interior cameras, watching the floor in real time. Every card on this screen &mdash; occupancy, visitor mix, loss-prevention cues &mdash; updates live as people cross the cameras below. Switch sites on the left to see how the view changes mall to mall.",
-    ar:"كاميرا مدخل واحدة و{n} كاميرات داخلية، تراقب الصالة في الوقت الفعلي. تتحدّث كل بطاقة في هذه الشاشة &mdash; الإشغال، تركيبة الزوار، إشارات منع الفقد &mdash; مباشرة مع كل عبور أمام الكاميرات أدناه. بدّل المواقع من القائمة على اليسار لترى كيف يتغيّر العرض من مول لآخر."},
+  hero_h1:{en:"Footfall counts, repeat-visitor matches, loss-prevention cues: read straight off your cameras.", ar:"عدّ الزوار، والتعرّف على العائدين، وإشارات منع الفقد: مباشرة من كاميراتك."},
+  hero_p_tpl:{en:"One entrance camera and {n} interior cameras watch the floor in real time. Occupancy, visitor mix and loss-prevention cues on this screen update live as people cross the cameras below. Switch sites on the left to see how the view changes mall to mall.",
+    ar:"كاميرا مدخل واحدة و{n} كاميرات داخلية، تراقب الصالة في الوقت الفعلي. تتحدّث الإشغال وتركيبة الزوار وإشارات منع الفقد في هذه الشاشة مباشرة مع كل عبور أمام الكاميرات أدناه. بدّل المواقع من القائمة على اليسار لترى كيف يتغيّر العرض من مول لآخر."},
   sim_pause:{en:"Pause simulation", ar:"إيقاف المحاكاة"}, sim_resume:{en:"Resume simulation", ar:"استئناف المحاكاة"},
   sim_live:{en:"Simulating live", ar:"محاكاة مباشرة"}, sim_paused:{en:"Paused", ar:"متوقف"},
   reset_demo:{en:"Reset demo", ar:"إعادة ضبط العرض"},
@@ -1261,13 +1553,13 @@ var STR = {
   tier_modules_k:{en:"Modules live", ar:"الوحدات الفعّالة"},
   tier_ai_k:{en:"AI reviewer", ar:"مراجع الذكاء الاصطناعي"}, tier_ai_v:{en:"Not on this tier", ar:"غير متاح في هذه الفئة"},
   tier_price_k:{en:"One-time / month", ar:"دفعة واحدة / شهريًا"},
-  overview_note:{en:"This screen runs on an appliance sitting on your premises &mdash; video and visitor data don't leave the building. PDPL details are on the System &amp; Licence tab.",
-    ar:"تعمل هذه الشاشة على جهاز موجود داخل منشأتك &mdash; ولا تُغادر بيانات الفيديو والزوار المبنى. تفاصيل نظام حماية البيانات الشخصية في تبويب النظام والترخيص."},
+  overview_note:{en:"This screen runs on an appliance sitting on your premises. Video and visitor data don't leave the building; PDPL details are on the System &amp; Licence tab.",
+    ar:"تعمل هذه الشاشة على جهاز موجود داخل منشأتك. لا تُغادر بيانات الفيديو والزوار المبنى، وتفاصيل نظام حماية البيانات الشخصية في تبويب النظام والترخيص."},
   jump_workspace:{en:"Jump into a workspace", ar:"انتقل إلى أحد مساحات العمل"},
   tier_scope_tpl:{en:"{tier}-tier scope", ar:"نطاق الفئة {tier}"},
   qn_occupancy:{en:"Live count, per-door entries/exits, capacity vs. the entrance camera feed.", ar:"عدّ مباشر، دخول/خروج لكل باب، والسعة مقابل بث كاميرا المدخل."},
   qn_visitors:{en:"Age band and gender estimates captured at the entrance line (Module A+).", ar:"تقديرات الفئة العمرية والجنس عند خط المدخل (الوحدة A+)."},
-  qn_loss:{en:"Interior cues to check &mdash; concealment, after-hours, restricted area.", ar:"إشارات داخلية للمراجعة &mdash; إخفاء، خارج ساعات العمل، منطقة مقيّدة."},
+  qn_loss:{en:"Interior cues to check: concealment, after-hours, restricted area.", ar:"إشارات داخلية للمراجعة: إخفاء، خارج ساعات العمل، منطقة مقيّدة."},
   qn_zones:{en:"Queue length, dwell time and a live traffic heatmap of the sales floor.", ar:"طول الطابور، زمن التمكث، وخريطة حرارية مباشرة لحركة صالة المبيعات."},
   qn_cameras:{en:"The 4-camera estate this package licenses, with health and stream role.", ar:"منشأة الكاميرات الأربع المرخّصة ضمن هذه الباقة، مع الحالة ودور كل بث."},
   qn_system:{en:"Appliance load, support SLA and how data stays on-premises.", ar:"حمل الجهاز، اتفاقية مستوى الدعم، وكيفية بقاء البيانات داخل المنشأة."},
@@ -1285,22 +1577,22 @@ var STR = {
   cam_main_entrance:{en:"Main Entrance", ar:"المدخل الرئيسي"}, role_entrance:{en:"entrance", ar:"مدخل"},
   in_label:{en:"In", ar:"دخول"}, out_label:{en:"Out", ar:"خروج"}, net_label:{en:"Net", ar:"الصافي"},
   occ_camdoing:{en:"What this camera is doing", ar:"ماذا تفعل هذه الكاميرا"},
-  occ_camdoing_p:{en:"It sits overhead at the doorway &mdash; that's the placement that actually holds up accuracy-wise. The amber line is the counting line. Every tracked person gets a box and an ID, and the instant that box crosses the line, direction and all, it's logged. Someone hesitates at the door and steps back? Doesn't get counted twice.",
-    ar:"توضع علوياً عند الباب &mdash; وهذا الموضع الذي يحافظ فعليًا على الدقة. الخط الكهرماني هو خط العدّ. يحصل كل شخص مُتتبَّع على مربّع ورقم تعريف، ولحظة عبور ذلك المربّع للخط، بالاتجاه أيضًا، يُسجَّل العبور. من يتردد عند الباب ويرجع خطوة؟ لا يُحسب مرتين."},
+  occ_camdoing_p:{en:"It sits overhead at the doorway, the placement that actually holds up accuracy-wise. The amber line is the counting line. Every tracked person gets a box and an ID, and the instant that box crosses the line, direction and all, it's logged. Someone hesitates at the door and steps back? They don't get counted twice.",
+    ar:"توضع علوياً عند الباب، وهذا الموضع الذي يحافظ فعليًا على الدقة. الخط الكهرماني هو خط العدّ. يحصل كل شخص مُتتبَّع على مربّع ورقم تعريف، ولحظة عبور ذلك المربّع للخط، بالاتجاه أيضًا، يُسجَّل العبور. من يتردد عند الباب ويرجع خطوة؟ لا يُحسب مرتين."},
   occ_kv_accuracy:{en:"Accuracy target (pilot)", ar:"هدف الدقة (تجريبي)"},
   occ_kv_placement:{en:"Placement", ar:"الموضع"}, occ_kv_placement_v:{en:"Overhead, entrance", ar:"علوي، عند المدخل"},
   occ_kv_twoline:{en:"Two-line accuracy gate", ar:"بوابة دقة بخطين"}, enabled:{en:"Enabled", ar:"مفعّل"},
   occ_kv_wrongdir:{en:"Wrong-direction alert", ar:"تنبيه الاتجاه الخاطئ"}, armed:{en:"Armed", ar:"مسلَّح"},
-  occ_note:{en:"This is body detection, not face recognition &mdash; abaya, hijab, niqab, none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.",
-    ar:"هذا كشف للجسم لا للوجه &mdash; العباية أو الحجاب أو النقاب، لا شيء من ذلك يغيّر العدّ. كل عبور يُحسب بالطريقة نفسها. أي شيء يعتمد على الوجه موجود في التبويب المجاور، الزوار."},
+  occ_note:{en:"This is body detection, not face recognition. Abaya, hijab, niqab: none of it changes the count. Every crossing gets counted the same way. Anything face-dependent lives one tab over, in Visitors.",
+    ar:"هذا كشف للجسم لا للوجه. العباية أو الحجاب أو النقاب، لا شيء من ذلك يغيّر العدّ. كل عبور يُحسب بالطريقة نفسها. أي شيء يعتمد على الوجه موجود في التبويب المجاور، الزوار."},
   vis_eyebrow:{en:"Module A+ &middot; Visitor insight (optional)", ar:"الوحدة A+ &middot; رؤى الزوار (اختياري)"},
   vis_title:{en:"Visitors &amp; demographics", ar:"الزوار والتركيبة السكانية"},
-  vis_desc:{en:"Every crossing gets a gender and age-band estimate &mdash; a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.",
-    ar:"يحصل كل عبور على تقدير للجنس والفئة العمرية &mdash; قراءة وجه حيثما وُجد وجه، وإشارات جسدية حيثما لم يوجد. البيانات إجمالية فقط. لا تُخزَّن ولا تُطابَق هوية أي شخص."},
+  vis_desc:{en:"Every crossing gets a gender and age-band estimate: a face read where there's a face to read, body cues where there isn't. It's aggregate only. Nobody's identity gets stored or matched to them.",
+    ar:"يحصل كل عبور على تقدير للجنس والفئة العمرية: قراءة وجه حيثما وُجد وجه، وإشارات جسدية حيثما لم يوجد. البيانات إجمالية فقط. لا تُخزَّن ولا تُطابَق هوية أي شخص."},
   vis_facesig:{en:"Face signatures: memory-only, auto-expire", ar:"توقيعات الوجه: في الذاكرة فقط، تنتهي تلقائيًا"},
   vis_facevis_title:{en:"Face visibility in a KSA mall", ar:"وضوح الوجه في مول سعودي"},
-  vis_facevis_p:{en:"Hijab covers hair, not face. SCRFD still finds it, InsightFace still reads it &mdash; no change in estimation at all. <b>Niqab or burqa is the actual variable.</b> The face is gone, but the covering itself tells you something: MallPro still calls the visit <b>female</b>, then falls back to height, build and gait for a rougher age band. Every one of those reads gets tagged <span class=\"mono\">body-cue</span> with a lower confidence score attached &mdash; it's never dressed up as a face match. Try the control below and watch the mix shift at a more conservative site.",
-    ar:"الحجاب يغطّي الشعر لا الوجه. يظل SCRFD قادرًا على رصده، ويظل InsightFace قادرًا على قراءته &mdash; دون أي تغيير في التقدير. <b>النقاب أو البرقع هو المتغيّر الفعلي.</b> يغيب الوجه، لكن الغطاء نفسه يخبرك بشيء: يظل MallPro يصنّف الزيارة <b>أنثى</b>، ثم يعود إلى الطول والبنية والمِشية لتقدير عمري أقل دقة. تُوسَم كل قراءة من هذا النوع بعلامة <span class=\"mono\">إشارة جسدية</span> مع درجة ثقة أقل &mdash; ولا تُقدَّم أبدًا كمطابقة وجه. جرّب أداة التحكم أدناه وشاهد كيف تتغيّر النسبة في موقع أكثر تحفّظًا."},
+  vis_facevis_p:{en:"Hijab covers hair, not face. SCRFD still finds it, InsightFace still reads it, so there's no change in estimation at all. <b>Niqab or burqa is the actual variable.</b> The face is gone, but the covering itself tells you something: MallPro still calls the visit <b>female</b>, then falls back to height, build and gait for a rougher age band. Every one of those reads gets tagged <span class=\"mono\">body-cue</span> with a lower confidence score attached; it's never dressed up as a face match. Try the control below and watch the mix shift at a more conservative site.",
+    ar:"الحجاب يغطّي الشعر لا الوجه. يظل SCRFD قادرًا على رصده، ويظل InsightFace قادرًا على قراءته، دون أي تغيير في التقدير. <b>النقاب أو البرقع هو المتغيّر الفعلي.</b> يغيب الوجه، لكن الغطاء نفسه يخبرك بشيء: يظل MallPro يصنّف الزيارة <b>أنثى</b>، ثم يعود إلى الطول والبنية والمِشية لتقدير عمري أقل دقة. تُوسَم كل قراءة من هذا النوع بعلامة <span class=\"mono\">إشارة جسدية</span> مع درجة ثقة أقل، ولا تُقدَّم أبدًا كمطابقة وجه. جرّب أداة التحكم أدناه وشاهد كيف تتغيّر النسبة في موقع أكثر تحفّظًا."},
   niqab_low:{en:"Low covering &middot; ~15%", ar:"تغطية منخفضة &middot; ~15%"},
   niqab_typical:{en:"Typical mall &middot; ~35%", ar:"مول نموذجي &middot; ~35%"},
   niqab_conservative:{en:"Conservative area &middot; ~55%", ar:"منطقة محافظة &middot; ~55%"},
@@ -1312,12 +1604,12 @@ var STR = {
   filter_bodycue:{en:"Body-cue estimate", ar:"تقدير بإشارة جسدية"},
   loss_eyebrow:{en:"Module B &middot; In-store safety &amp; loss prevention", ar:"الوحدة B &middot; السلامة الداخلية ومنع الفقد"},
   loss_title:{en:"Cues to check", ar:"إشارات للمراجعة"},
-  loss_desc:{en:"On Small, cues go straight to staff &mdash; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.",
-    ar:"في الفئة الصغرى، تذهب الإشارات مباشرة إلى الموظفين &mdash; دون مراجع ذكاء اصطناعي أمامها بعد. تأتي كل إشارة مع كاميرا، ودرجة ثقة، وإطار إثبات. لا اتهام مجرّد أبدًا."},
+  loss_desc:{en:"On Small, cues go straight to staff; there's no AI reviewer sitting in front of them yet. Each one comes with a camera, a confidence score, an evidence frame. Never a bare accusation.",
+    ar:"في الفئة الصغرى، تذهب الإشارات مباشرة إلى الموظفين، دون مراجع ذكاء اصطناعي أمامها بعد. تأتي كل إشارة مع كاميرا، ودرجة ثقة، وإطار إثبات. لا اتهام مجرّد أبدًا."},
   loss_today:{en:"Cues today", ar:"إشارات اليوم"}, loss_confirmed:{en:"Confirmed", ar:"مؤكَّدة"},
   loss_false:{en:"Marked false", ar:"مُصنَّفة كخاطئة"}, loss_falserate:{en:"False-alarm rate", ar:"معدّل الإنذار الخاطئ"},
   loss_demo_title:{en:"Demo controls &middot; simulate a cue", ar:"أدوات العرض &middot; محاكاة إشارة"},
-  loss_demo_p:{en:"Trigger a scenario live to see the review workflow in action &mdash; useful when walking a stakeholder through the product.", ar:"شغّل سيناريو مباشرة لمشاهدة سير عمل المراجعة فعليًا &mdash; مفيد عند شرح المنتج لأحد أصحاب المصلحة."},
+  loss_demo_p:{en:"Trigger a scenario live to see the review workflow in action, useful when walking a stakeholder through the product.", ar:"شغّل سيناريو مباشرة لمشاهدة سير عمل المراجعة فعليًا، مفيد عند شرح المنتج لأحد أصحاب المصلحة."},
   loss_afterhours:{en:"Simulate after-hours mode", ar:"محاكاة وضع خارج ساعات العمل"},
   loss_feed:{en:"Alert feed", ar:"موجز التنبيهات"},
   loss_cuetypes:{en:"Cue types on this tier", ar:"أنواع الإشارات في هذه الفئة"},
@@ -1329,12 +1621,12 @@ var STR = {
   cue_afterhours:{en:"After-hours presence", ar:"تواجد خارج ساعات العمل"},
   cam_sales_floor:{en:"Sales Floor", ar:"صالة المبيعات"}, cam_checkout_queue:{en:"Checkout Queue", ar:"طابور الدفع"},
   cam_stockroom:{en:"Stockroom Corridor", ar:"ممر المستودع"},
-  loss_note:{en:"Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that &mdash; every cue lands straight in this feed, and a person makes the call.",
-    ar:"تضيف الفئتان المتوسطة والقصوى مراجعة ذكاء اصطناعي قبل وصول أي إشارة لأحد. تتجاوز الفئة الصغرى ذلك &mdash; تصل كل إشارة مباشرة إلى هذا الموجز، ويتخذ القرار شخص."},
+  loss_note:{en:"Mid and Max add a reviewing AI pass before a cue reaches anyone. Small skips that: every cue lands straight in this feed, and a person makes the call.",
+    ar:"تضيف الفئتان المتوسطة والقصوى مراجعة ذكاء اصطناعي قبل وصول أي إشارة لأحد. تتجاوز الفئة الصغرى ذلك: تصل كل إشارة مباشرة إلى هذا الموجز، ويتخذ القرار شخص."},
   zones_eyebrow:{en:"Module B &middot; Zone intelligence", ar:"الوحدة B &middot; ذكاء المناطق"},
   zones_title:{en:"Zones &amp; heatmap", ar:"المناطق والخريطة الحرارية"},
-  zones_desc:{en:"Queue length, dwell time, and a rolling heatmap of foot traffic &mdash; built off the same interior cameras doing loss prevention.",
-    ar:"طول الطابور، زمن التمكث، وخريطة حرارية متجددة لحركة الزوار &mdash; مبنية على نفس الكاميرات الداخلية الخاصة بمنع الفقد."},
+  zones_desc:{en:"Queue length, dwell time, and a rolling heatmap of foot traffic, built off the same interior cameras doing loss prevention.",
+    ar:"طول الطابور، زمن التمكث، وخريطة حرارية متجددة لحركة الزوار، مبنية على نفس الكاميرات الداخلية الخاصة بمنع الفقد."},
   zones_queue:{en:"People in till queue", ar:"عدد الأشخاص في طابور الصندوق"},
   zones_dwell:{en:"Avg dwell &middot; promo table", ar:"متوسط التمكث &middot; طاولة العروض"},
   status_clear:{en:"Clear", ar:"سالك"}, status_breach:{en:"Breach", ar:"اختراق"},
@@ -1368,8 +1660,8 @@ var STR = {
   sys_slahours:{en:"Sun&ndash;Fri, 09:00&ndash;18:00 AST, email &amp; ticket.", ar:"الأحد&ndash;الجمعة، 09:00&ndash;18:00 بتوقيت السعودية، بريد وتذاكر دعم."},
   rep_eyebrow:{en:"Cross-module &middot; Reporting", ar:"عبر الوحدات &middot; التقارير"},
   rep_title:{en:"Visitor &amp; operations report", ar:"تقرير الزوار والعمليات"},
-  rep_desc:{en:"A rollup of this site's activity, including which visitors have been seen coming back &mdash; MallPro re-recognises a returning shopper by the same face or body-cue signature, never by identity.",
-    ar:"ملخّص شامل لنشاط هذا الموقع، بما في ذلك الزوار الذين لوحظت عودتهم &mdash; يتعرّف MallPro على المتسوّق العائد بنفس توقيع الوجه أو الإشارة الجسدية، لا بالهوية أبدًا."},
+  rep_desc:{en:"A rollup of this site's activity, including which visitors have been seen coming back. MallPro re-recognises a returning shopper by the same face or body-cue signature, never by identity.",
+    ar:"ملخّص شامل لنشاط هذا الموقع، بما في ذلك الزوار الذين لوحظت عودتهم. يتعرّف MallPro على المتسوّق العائد بنفس توقيع الوجه أو الإشارة الجسدية، لا بالهوية أبدًا."},
   rep_copy:{en:"Copy report as CSV", ar:"نسخ التقرير كملف CSV"},
   rep_total_visits:{en:"Total visits logged", ar:"إجمالي الزيارات المسجَّلة"},
   rep_unique:{en:"Unique visitor profiles", ar:"ملفات الزوار الفريدة"},
@@ -1385,8 +1677,8 @@ var STR = {
   rep_method_face:{en:"Direct face read", ar:"قراءة وجه مباشرة"}, rep_method_body:{en:"Body-cue estimate", ar:"تقدير بإشارة جسدية"},
   rep_by_zone:{en:"Open cues by camera", ar:"الإشارات المفتوحة بحسب الكاميرا"},
   rep_zone_th_cam:{en:"Camera", ar:"الكاميرا"}, rep_zone_th_open:{en:"Open cues", ar:"إشارات مفتوحة"},
-  rep_note:{en:"Nothing here is a real identity: \"repeat visitor\" just means the same face or body-cue signature was seen again on a later crossing &mdash; MallPro re-recognises a returning shopper without ever storing who they are.",
-    ar:"لا توجد هنا هوية حقيقية: \"الزائر المتكرر\" يعني فقط أن نفس توقيع الوجه أو الإشارة الجسدية رُصد مجددًا في عبور لاحق &mdash; يتعرّف MallPro على المتسوّق العائد دون تخزين هويته أبدًا."},
+  rep_note:{en:"Nothing here is a real identity: \"repeat visitor\" just means the same face or body-cue signature was seen again on a later crossing. MallPro re-recognises a returning shopper without ever storing who they are.",
+    ar:"لا توجد هنا هوية حقيقية: \"الزائر المتكرر\" يعني فقط أن نفس توقيع الوجه أو الإشارة الجسدية رُصد مجددًا في عبور لاحق. يتعرّف MallPro على المتسوّق العائد دون تخزين هويته أبدًا."},
   status_new:{en:"Needs review", ar:"يحتاج مراجعة"}, status_confirmed:{en:"confirmed", ar:"مؤكَّد"},
   status_false:{en:"false", ar:"خاطئ"}, status_reviewed:{en:"reviewed", ar:"تمت مراجعته"},
   btn_confirm:{en:"Confirm", ar:"تأكيد"}, btn_markfalse:{en:"Mark false", ar:"تصنيف كخاطئ"}, btn_reopen:{en:"Reopen", ar:"إعادة فتح"},
@@ -1395,7 +1687,7 @@ var STR = {
   cam_online:{en:"Online", ar:"متصل"}, cam_reconnecting:{en:"Reconnecting…", ar:"إعادة الاتصال…"},
   zone_entrance_a:{en:"Entrance A", ar:"المدخل A"}, zone_apparel:{en:"Apparel Floor", ar:"صالة الملابس"},
   zone_till:{en:"Till Line", ar:"خط الصناديق"}, zone_restricted_corridor:{en:"Restricted Corridor", ar:"الممر المقيّد"},
-  occ_recent_empty:{en:"No crossings yet &mdash; simulation is running.", ar:"لا عبور بعد &mdash; المحاكاة قيد التشغيل."},
+  occ_recent_empty:{en:"No crossings yet. Simulation is running.", ar:"لا عبور بعد. المحاكاة قيد التشغيل."},
   vis_empty:{en:"No visitors captured yet.", ar:"لم يُرصد أي زائر بعد."},
   loss_feed_empty:{en:"No cues yet. Use the demo controls above to simulate one.", ar:"لا إشارات بعد. استخدم أدوات العرض أعلاه لمحاكاة إشارة."},
   dir_entrance:{en:"entrance", ar:"دخول"}, dir_exit:{en:"exit", ar:"خروج"},
@@ -1448,8 +1740,8 @@ var STR = {
 
   an_eyebrow:{en:"Predictive layer", ar:"طبقة التنبؤ"},
   an_title:{en:"Analytics &amp; predictions", ar:"التحليلات والتوقعات"},
-  an_desc:{en:"Forecasts and risk scoring built on top of this site's live feed &mdash; where footfall is heading, when it peaks, and where loss-prevention risk is trending.",
-    ar:"توقعات وتقييم مخاطر مبني على بث هذا الموقع المباشر &mdash; إلى أين تتجه حركة الزوار، ومتى تبلغ ذروتها، وإلى أين يتجه خطر منع الفقد."},
+  an_desc:{en:"Forecasts and risk scoring built on top of this site's live feed: where footfall is heading, when it peaks, and where loss-prevention risk is trending.",
+    ar:"توقعات وتقييم مخاطر مبني على بث هذا الموقع المباشر: إلى أين تتجه حركة الزوار، ومتى تبلغ ذروتها، وإلى أين يتجه خطر منع الفقد."},
   an_forecast_kpi:{en:"Predicted peak &middot; tomorrow", ar:"الذروة المتوقعة &middot; غدًا"},
   an_visitors_unit:{en:"visitors", ar:"زائر"},
   an_busiest_kpi:{en:"Busiest predicted hour", ar:"أكثر ساعة ازدحامًا متوقعة"},
@@ -1484,7 +1776,77 @@ var STR = {
   range_7:{en:"7 days", ar:"7 أيام"}, range_14:{en:"14 days", ar:"14 يومًا"}, range_30:{en:"30 days", ar:"30 يومًا"},
   zone_all:{en:"All zones", ar:"كل المناطق"},
   segment_all:{en:"All visitors", ar:"كل الزوار"}, segment_male:{en:"Male", ar:"ذكور"}, segment_female:{en:"Female", ar:"إناث"},
-  an_filtered_by:{en:"Filtered: {zone} &middot; {segment}", ar:"مُصفّى: {zone} &middot; {segment}"}
+  an_filtered_by:{en:"Filtered: {zone} &middot; {segment}", ar:"مُصفّى: {zone} &middot; {segment}"},
+
+  range_custom:{en:"Custom range", ar:"نطاق مخصّص"},
+  an_filter_visittype:{en:"Visit type", ar:"نوع الزيارة"},
+  an_filter_gender:{en:"Gender", ar:"الجنس"},
+  rep_filter_firsttime:{en:"First-time", ar:"زيارة أولى"},
+
+  nav_support:{en:"Support &amp; SLA", ar:"الدعم واتفاقية مستوى الخدمة"},
+
+  cams_health_title:{en:"Fleet health at a glance", ar:"حالة أسطول الكاميرات في لمحة"},
+  health_online:{en:"Online", ar:"متصل"}, health_warning:{en:"Warning", ar:"تحذير"}, health_offline:{en:"Offline", ar:"غير متصل"},
+  health_summary_tpl:{en:"{n} / {total} cameras online", ar:"{n} / {total} كاميرا متصلة"},
+
+  ov_kpi_title:{en:"Right now, at this site", ar:"الآن، في هذا الموقع"},
+  ov_kpi_occ:{en:"Occupancy vs capacity", ar:"الإشغال مقابل السعة"},
+  ov_kpi_visits:{en:"Visits today", ar:"الزيارات اليوم"},
+  ov_kpi_alerts:{en:"Open loss-prevention cues", ar:"إشارات منع الفقد المفتوحة"},
+  ov_kpi_camhealth:{en:"Camera fleet health", ar:"حالة أسطول الكاميرات"},
+  ov_occtrend_title:{en:"Occupancy, last 6 minutes", ar:"الإشغال، آخر 6 دقائق"},
+  ov_visits7d_title:{en:"Visits, last 7 days", ar:"الزيارات، آخر 7 أيام"},
+  ov_camhealth_title:{en:"Camera fleet at a glance", ar:"أسطول الكاميرات في لمحة"},
+  ov_clock_title:{en:"Site clock", ar:"ساعة الموقع"},
+  ov_clock_note:{en:"A deterministic reading tied to this device's clock and Jeddah's usual daily temperature curve, not a live weather feed.",
+    ar:"قراءة حتمية مرتبطة بساعة هذا الجهاز ومنحنى الحرارة اليومي المعتاد في جدة، وليست بثًا مباشرًا لحالة الطقس."},
+  ov_riskindex_tpl:{en:"Risk index {n}/100", ar:"مؤشر المخاطر {n}/100"},
+  ov_online_of_tpl:{en:"{n} / {total} online", ar:"{n} / {total} متصلة"},
+
+  rep_filters_title:{en:"Build a filtered view", ar:"إنشاء عرض مُصفّى"},
+  rep_filter_from:{en:"From", ar:"من"}, rep_filter_to:{en:"To", ar:"إلى"},
+  rep_filter_visittype:{en:"Visit type", ar:"نوع الزيارة"},
+  rep_filter_search:{en:"Search by profile ID", ar:"بحث بمعرّف الملف"},
+  rep_filter_clear:{en:"Clear filters", ar:"مسح عوامل التصفية"},
+  rep_filter_summary_tpl:{en:"Showing {n} of {total} logged visits, {u} profiles", ar:"عرض {n} من {total} زيارة مسجَّلة، {u} ملفًا"},
+  zone_entrance_a_short:{en:"Entrance A", ar:"المدخل A"},
+
+  sup_eyebrow:{en:"ITSM &middot; Service desk", ar:"إدارة خدمات تقنية المعلومات &middot; مكتب الخدمة"},
+  sup_title:{en:"Support &amp; SLA", ar:"الدعم واتفاقية مستوى الخدمة"},
+  sup_desc:{en:"The ticket queue for this deployment: every camera fault, storage warning and tuning request raised against this site, tracked against the response and resolution targets in the service catalog below.",
+    ar:"قائمة تذاكر هذا النشر: كل عطل كاميرا، وتحذير سعة تخزين، وطلب ضبط يُرفع لهذا الموقع، متابَع مقارنة بأهداف الاستجابة والحل في كتالوج الخدمة أدناه."},
+  sup_kpi_response:{en:"Avg. response time", ar:"متوسط زمن الاستجابة"},
+  sup_kpi_resolution:{en:"Avg. resolution time", ar:"متوسط زمن الحل"},
+  sup_kpi_compliance:{en:"SLA compliance", ar:"الامتثال لاتفاقية مستوى الخدمة"},
+  sup_kpi_open:{en:"Open tickets", ar:"التذاكر المفتوحة"},
+  sup_breached_tpl:{en:"{n} breached", ar:"{n} تجاوزت المهلة"},
+  sup_queue_title:{en:"Ticket queue", ar:"قائمة التذاكر"},
+  sup_th_id:{en:"Ticket", ar:"التذكرة"}, sup_th_priority:{en:"Priority", ar:"الأولوية"},
+  sup_th_category:{en:"Category", ar:"الفئة"}, sup_th_status:{en:"Status", ar:"الحالة"},
+  sup_th_opened:{en:"Opened", ar:"فُتحت"}, sup_th_due:{en:"SLA due", ar:"موعد اتفاقية الخدمة"},
+  sup_th_remaining:{en:"Remaining", ar:"المتبقي"},
+  sup_th_response_target:{en:"Response target", ar:"هدف الاستجابة"},
+  sup_th_resolution_target:{en:"Resolution target", ar:"هدف الحل"},
+  sup_policy_title:{en:"Service-level catalog", ar:"كتالوج مستوى الخدمة"},
+  sup_policy_sub:{en:"Response and resolution targets by ticket priority for this deployment", ar:"أهداف الاستجابة والحل بحسب أولوية التذكرة لهذا النشر"},
+  sup_raise_title:{en:"Raise a ticket", ar:"فتح تذكرة"},
+  sup_raise_note:{en:"Opens a ticket in this session's queue, with its due time set from the catalog on the left.", ar:"يفتح تذكرة في قائمة هذه الجلسة، بموعد استحقاق مضبوط من الكتالوج على اليسار."},
+  sup_desc_label:{en:"Description", ar:"الوصف"},
+  sup_desc_placeholder:{en:"What's going on?", ar:"ما الذي يحدث؟"},
+  sup_raise_btn:{en:"Open ticket", ar:"فتح التذكرة"},
+  sup_cat_camera:{en:"Camera offline", ar:"كاميرا غير متصلة"},
+  sup_cat_storage:{en:"Storage capacity", ar:"سعة التخزين"},
+  sup_cat_falsealert:{en:"False alert rate", ar:"معدل الإنذارات الخاطئة"},
+  sup_cat_network:{en:"Network", ar:"الشبكة"},
+  sup_cat_access:{en:"Access request", ar:"طلب وصول"},
+  sup_cat_other:{en:"Other", ar:"أخرى"},
+  sup_status_open:{en:"Open", ar:"مفتوحة"}, sup_status_inprogress:{en:"In progress", ar:"قيد المعالجة"},
+  sup_status_resolved:{en:"Resolved", ar:"تم الحل"}, sup_status_breached:{en:"Breached", ar:"تجاوزت المهلة"},
+  sup_next_bizday:{en:"Next business day", ar:"يوم العمل التالي"},
+  sup_remaining_overdue:{en:"Overdue by {t}", ar:"متأخرة بـ {t}"},
+  sup_remaining_left:{en:"{t} left", ar:"متبقٍ {t}"},
+  toast_ticket_title:{en:"Ticket opened", ar:"تم فتح التذكرة"},
+  toast_ticket_body:{en:"{id} added to the queue, due in {t}.", ar:"أُضيفت {id} إلى القائمة، مستحقة خلال {t}."}
 };
 var currentLang = "en";
 function t(key, vars){
@@ -1509,6 +1871,10 @@ function applyLang(lang){
   renderOccupancy(); renderRecentStrip(); renderVisitors(); renderAlerts(); renderZones(); renderCameras(); renderReport(); renderSimButtons();
   if(typeof updateSiteDependentUI==="function") updateSiteDependentUI();
   if(typeof renderAnalytics==="function") renderAnalytics();
+  if(typeof renderOverview==="function") renderOverview();
+  if(typeof renderSupport==="function") renderSupport();
+  if(typeof rebuildReportFilterOptions==="function") rebuildReportFilterOptions();
+  updateLiveWidgets(new Date());
 }
 function applyTheme(theme){
   document.documentElement.dataset.theme = theme;
@@ -1651,7 +2017,9 @@ var S = {
   galleryOn:true,
   gpu: 38,
   uptimeStart: Date.now(),
-  camHealth: {}
+  camHealth: {},
+  tickets: [], // {id,priority,category,status,openedAt,dueAt,respondedAt,resolvedAt}
+  ticketSeq: 1
 };
 CAMERAS.forEach(function(c){ S.camHealth[c.id] = "online"; });
 
@@ -1668,7 +2036,7 @@ function drawMapSchematic(site){
   var host = $("#mapSchematic");
   if(!host) return;
   var url = buildOsmEmbedUrl(site);
-  host.innerHTML = '<iframe src="'+url+'" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="'+esc(t(site.nameKey))+' &mdash; OpenStreetMap"></iframe>';
+  host.innerHTML = '<iframe src="'+url+'" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="'+esc(t(site.nameKey))+', OpenStreetMap"></iframe>';
 }
 function updateSiteDependentUI(){
   var site = SITES[currentSiteId];
@@ -1707,10 +2075,14 @@ function applySite(id){
   S.camHealth = {};
   CAMERAS.forEach(function(c){ S.camHealth[c.id] = "online"; });
   S.capacity = site.capacity;
+  S.tickets = buildTickets(site);
   resetAll();
   updateSiteDependentUI();
   renderCameras();
   renderAnalytics();
+  renderOverview();
+  renderSupport();
+  rebuildReportFilterOptions();
 }
 $all(".site-tab").forEach(function(b){
   b.addEventListener("click", function(){ applySite(b.dataset.site); });
@@ -1752,7 +2124,10 @@ function toast(title, body, kind){
   var wrap = $("#toastWrap");
   var el = document.createElement("div");
   el.className = "toast"+(kind?" "+kind:"");
-  el.innerHTML = "<b>"+esc(title)+"</b>"+esc(body||"");
+  // title/body always come from t(...) with trusted, translator-controlled
+  // text (may include entities like &middot;), never raw user input, so
+  // they're set via innerHTML rather than escaped like untrusted strings.
+  el.innerHTML = "<b>"+title+"</b>"+(body||"");
   wrap.appendChild(el);
   setTimeout(function(){ el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(function(){ el.remove(); },320); }, 3600);
   while(wrap.children.length>4){ wrap.removeChild(wrap.firstChild); }
@@ -1764,16 +2139,48 @@ function showPage(id){
   $all(".nav-btn").forEach(function(b){ b.classList.toggle("active", b.dataset.page===id); });
   if(history.replaceState){ try{ location.hash = id; }catch(e){} }
   if(id==="analytics" && typeof renderAnalytics==="function") renderAnalytics();
+  if(id==="support" && typeof renderSupport==="function") renderSupport();
+  if(id==="overview" && typeof renderOverview==="function") renderOverview();
 }
 $all(".nav-btn").forEach(function(b){ b.addEventListener("click", function(){ showPage(b.dataset.page); }); });
 $all("[data-goto]").forEach(function(b){ b.addEventListener("click", function(){ showPage(b.dataset.goto); }); });
 (function initHash(){
   var h = (location.hash||"").replace("#","");
-  var valid = ["overview","occupancy","visitors","loss","zones","cameras","system","report","analytics"];
+  var valid = ["overview","occupancy","visitors","loss","zones","cameras","system","report","analytics","support"];
   if(valid.indexOf(h)>=0) showPage(h);
 })();
 
 /* ---------------- clocks ---------------- */
+// Deterministic Jeddah ambient temperature: a smooth day/night curve tied to
+// the real device clock, not a network weather fetch. Peaks mid-afternoon,
+// bottoms out before dawn, matching the city's hot, dry climate.
+function jeddahTemp(date){
+  var hourFrac = date.getHours() + date.getMinutes()/60;
+  var mid = 32, amp = 8, peakHour = 15.5;
+  return mid + amp*Math.cos((hourFrac-peakHour)/24*2*Math.PI);
+}
+function weatherIconSVG(date){
+  var h = date.getHours();
+  var isDay = h>=6 && h<18;
+  return isDay
+    ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent-strong)" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>'
+    : '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--info)" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>';
+}
+function updateLiveWidgets(now){
+  var timeStr = fmtClock(now);
+  var dateStr;
+  try{ dateStr = now.toLocaleDateString(currentLang==="ar" ? "ar-SA-u-ca-gregory" : "en-GB", {weekday:"short", day:"numeric", month:"short"}); }
+  catch(e){ dateStr = now.toDateString(); }
+  var tempStr = Math.round(jeddahTemp(now)) + "°C";
+  var icon = weatherIconSVG(now);
+  [["sidebarLiveTime","sidebarLiveDate","sidebarLiveTemp","sidebarLiveIcon"],
+   ["ovLiveTime","ovLiveDate","ovLiveTemp","ovLiveIcon"]].forEach(function(ids){
+    var elT = document.getElementById(ids[0]); if(elT) elT.textContent = timeStr;
+    var elD = document.getElementById(ids[1]); if(elD) elD.textContent = dateStr;
+    var elTemp = document.getElementById(ids[2]); if(elTemp) elTemp.textContent = tempStr;
+    var elI = document.getElementById(ids[3]); if(elI) elI.innerHTML = icon;
+  });
+}
 function tickClocks(){
   var now = new Date();
   var t = fmtClock(now);
@@ -1783,6 +2190,7 @@ function tickClocks(){
   var up = Math.floor((Date.now()-S.uptimeStart)/1000);
   var h = pad2(Math.floor(up/3600)), m = pad2(Math.floor((up%3600)/60)), s = pad2(up%60);
   var uv = $("#uptimeVal"); if(uv) uv.textContent = h+":"+m+":"+s;
+  updateLiveWidgets(now);
 }
 setInterval(tickClocks, 1000); tickClocks();
 
@@ -2323,7 +2731,8 @@ function registerCrossing(dir){
 
   var v = {
     id: S.entries+S.exits, gender:gender, ageBand:band, age:age, method:method, confidence:confidence,
-    dir:dir, ts:ts, uid:identity.uid, returning: identity.visits.length>1, visitNumber: identity.visits.length
+    dir:dir, ts:ts, uid:identity.uid, returning: identity.visits.length>1, visitNumber: identity.visits.length,
+    camera:"cam1" // every crossing is logged at the entrance line; interior cameras don't run person ID
   };
   v.appearance = identity.appearance;
   S.visitors.push(v);
@@ -2332,6 +2741,7 @@ function registerCrossing(dir){
   if(method==="face") S.demo.viaFace++; else S.demo.viaBody++;
   S.demo.ageTotal += age; S.demo.ageCount++; S.demo.bands[band]++;
   renderOccupancy(); renderRecentStrip(); renderVisitors(); renderReport();
+  if(typeof renderOverview==="function") renderOverview();
 }
 
 /* ---------------- main loop ---------------- */
@@ -2351,6 +2761,7 @@ function loop(now){
       S.history.push(S.occupancy);
       if(S.history.length>90) S.history.shift();
       drawOccChart();
+      if(typeof renderOverview==="function") renderOverview();
     }
 
     // ambient random interior cue
@@ -2362,12 +2773,13 @@ function loop(now){
         setTimeout(function(){ salesCue=null; }, 5000);
       }
     }
-    // ambient camera health blip
+    // ambient camera health blip -- most blips are a brief warning; a rare few go fully offline
     if(Math.random() < 0.0006){
       var c = pick(CAMERAS);
-      S.camHealth[c.id] = "reconnecting";
+      var goesOffline = Math.random() < 0.15;
+      S.camHealth[c.id] = goesOffline ? "offline" : "warning";
       renderCameras();
-      setTimeout(function(){ S.camHealth[c.id]="online"; renderCameras(); }, 3200);
+      setTimeout(function(){ S.camHealth[c.id]="online"; renderCameras(); }, goesOffline ? 6000 : 3200);
     }
     // gpu wander
     var camerasActive = 4;
@@ -2397,19 +2809,167 @@ function updateGpuGauge(){
 }
 
 /* ---------------- cameras page ---------------- */
+var HEALTH_COLOR = { online:"var(--good)", warning:"var(--accent-strong)", offline:"var(--bad)" };
+function camHealthLabel(health){
+  if(health==="online") return t("cam_online");
+  if(health==="offline") return t("health_offline");
+  return t("cam_reconnecting");
+}
+function computeCamHealthSummary(){
+  var counts = { online:0, warning:0, offline:0 };
+  CAMERAS.forEach(function(c){
+    var h = S.camHealth[c.id] || "online";
+    if(counts[h]===undefined) h = "warning";
+    counts[h]++;
+  });
+  var total = CAMERAS.length;
+  return { counts:counts, total:total };
+}
+// Shared "camera health at a glance" widget: a colour-coded ring plus a
+// breakdown, rendered wherever a container id is passed in (Cameras page,
+// Overview KPI strip). Rebuilds from S.camHealth every call, so it always
+// reflects the live state, including after a site switch.
+function renderCamHealthWidget(containerId, compact){
+  var host = document.getElementById(containerId);
+  if(!host) return;
+  var summary = computeCamHealthSummary();
+  var c = summary.counts, total = summary.total || 1;
+  var segs = [
+    {n:c.online, color:HEALTH_COLOR.online},
+    {n:c.warning, color:HEALTH_COLOR.warning},
+    {n:c.offline, color:HEALTH_COLOR.offline}
+  ];
+  var R = compact ? 24 : 34, CX = compact ? 29 : 40, CY = compact ? 29 : 40, SW = compact ? 8 : 10;
+  var circumference = 2*Math.PI*R;
+  var offsetAcc = 0;
+  var arcs = segs.map(function(s){
+    var frac = s.n/total;
+    var len = frac*circumference;
+    var dasharray = len.toFixed(1)+" "+(circumference-len).toFixed(1);
+    var dashoffset = (-offsetAcc).toFixed(1);
+    offsetAcc += len;
+    if(s.n<=0) return "";
+    return '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="'+s.color+'" stroke-width="'+SW+'" '+
+      'stroke-dasharray="'+dasharray+'" stroke-dashoffset="'+dashoffset+'" transform="rotate(-90 '+CX+' '+CY+')" stroke-linecap="butt"/>';
+  }).join("");
+  var svgSize = compact ? 58 : 80;
+  var ring = '<svg class="health-ring" width="'+svgSize+'" height="'+svgSize+'" viewBox="0 0 '+svgSize+' '+svgSize+'">'+
+    '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="var(--surface-3)" stroke-width="'+SW+'"/>'+
+    arcs+
+    '<text x="'+CX+'" y="'+(CY+(compact?4:5))+'" text-anchor="middle" font-size="'+(compact?13:16)+'" fill="var(--text)" font-weight="600">'+c.online+'/'+total+'</text>'+
+  '</svg>';
+  var rows = [
+    ["online","health_online"], ["warning","health_warning"], ["offline","health_offline"]
+  ].map(function(pair){
+    return '<div class="health-row"><span class="sw" style="background:'+HEALTH_COLOR[pair[0]]+'"></span>'+t(pair[1])+'<b>'+c[pair[0]]+'</b></div>';
+  }).join("");
+  var summaryLine = '<div style="font-weight:600; font-size:'+(compact?"13px":"14px")+'; margin-bottom:6px;">'+t("health_summary_tpl",{n:c.online, total:total})+'</div>';
+  host.innerHTML = '<div class="health-widget'+(compact?" compact":"")+'">'+ring+'<div class="health-breakdown">'+summaryLine+rows+'</div></div>';
+}
 function renderCameras(){
   $("#cameraCards").innerHTML = CAMERAS.map(function(c){
-    var health = S.camHealth[c.id];
-    var healthColor = health==="online" ? "var(--good)" : "var(--accent-strong)";
+    var health = S.camHealth[c.id] || "online";
+    var healthColor = HEALTH_COLOR[health] || HEALTH_COLOR.warning;
     return '<div class="card">'+
       '<div class="card-title">'+esc(t(c.nameKey))+'<span class="cam-role '+(c.role==="entrance"?"entrance":"")+'">'+t(c.role==="entrance"?"role_entrance":"role_interior")+'</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_zone")+'</span><span>'+esc(t(c.zoneKey))+'</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_stream")+'</span><span>rtsp://'+c.ip+'/stream1</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_res")+'</span><span>'+c.res+'</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_fps")+'</span><span>'+c.fps+' fps</span></div>'+
-      '<div class="kv"><span>'+t("cam_kv_health")+'</span><span style="color:'+healthColor+'">'+(health==="online"?t("cam_online"):t("cam_reconnecting"))+'</span></div>'+
+      '<div class="kv"><span>'+t("cam_kv_health")+'</span><span style="color:'+healthColor+'">'+camHealthLabel(health)+'</span></div>'+
     '</div>';
   }).join("");
+  renderCamHealthWidget("camsHealthWidget", false);
+  renderCamHealthWidget("ovCamHealthWidget", true);
+  var navBadge = $("#navTicketBadge");
+  if(navBadge && typeof S.tickets!=="undefined"){
+    var openCount = S.tickets.filter(function(x){ return x.status==="Open"||x.status==="InProgress"||x.status==="Breached"; }).length;
+    navBadge.textContent = openCount;
+  }
+}
+
+/* ---------------- rendering: overview dashboard ---------------- */
+// Generic small line/area chart used for every mini trend on the Overview
+// page (KPI sparklines and the two larger cards). Reads the target element's
+// own viewBox attribute, so the same function draws a 120x26 sparkline and an 800x120
+// card chart without any extra configuration.
+function drawSimpleTrend(svgId, pts, color){
+  var svg = document.getElementById(svgId); if(!svg) return;
+  var vbAttr = (svg.getAttribute("viewBox")||"0 0 800 120").split(" ").map(Number);
+  var W = vbAttr[2]||800, H = vbAttr[3]||120, pad = Math.max(2, H*0.08);
+  if(!pts || pts.length<2){ svg.innerHTML=""; return; }
+  var max = Math.max.apply(null, pts.concat([1]))*1.08;
+  var min = Math.min.apply(null, pts.concat([0]));
+  var range = Math.max(1, max-min);
+  var stepX = (W-pad*2)/(pts.length-1);
+  var d = "";
+  pts.forEach(function(v,i){
+    var x = pad+i*stepX;
+    var y = H-pad-((v-min)/range)*(H-pad*2);
+    d += (i===0?"M":"L")+x.toFixed(1)+","+y.toFixed(1)+" ";
+  });
+  var lastX = pad+(pts.length-1)*stepX;
+  var lastY = H-pad-((pts[pts.length-1]-min)/range)*(H-pad*2);
+  var area = "M"+pad+","+(H-pad)+" L"+d.slice(1)+" L"+lastX.toFixed(1)+","+(H-pad)+" Z";
+  svg.innerHTML = '<path d="'+area+'" fill="'+color+'" opacity="0.14" stroke="none"/>'+
+    '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'+
+    '<circle cx="'+lastX.toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="2.6" fill="'+color+'"/>';
+}
+function renderOverview(){
+  var host = $("#page-overview"); if(!host) return;
+  var site = SITES[currentSiteId];
+
+  var occEl = $("#ovKpiOcc"); if(occEl) occEl.textContent = S.occupancy;
+  var occSub = $("#ovKpiOccSub"); if(occSub) occSub.textContent = (currentLang==="ar"?"من ":"of ")+S.capacity;
+  var histPts = S.history.length ? S.history.slice(-30) : [0,0];
+  var occTrendVal = histPts.length>1 ? histPts[histPts.length-1]-histPts[0] : 0;
+  var occTrendEl = $("#ovKpiOccTrend");
+  if(occTrendEl){ occTrendEl.textContent=(occTrendVal>=0?"+":"")+occTrendVal; occTrendEl.className="stat-delta "+(occTrendVal>=0?"up":"down"); }
+  drawSimpleTrend("ovSparkOcc", histPts, "var(--accent)");
+  drawSimpleTrend("ovOccChart", S.history.length ? S.history.slice(-72) : [0,0], "var(--accent)");
+
+  var visitsToday = S.entries;
+  var visEl = $("#ovKpiVisits"); if(visEl) visEl.textContent = visitsToday;
+  var series7 = [];
+  for(var i=6;i>=1;i--){
+    var noise = 0.75+seededRand(site.lat*500+i)*0.5;
+    series7.push(Math.round(site.capacity*1.1*noise));
+  }
+  series7.push(Math.max(1, visitsToday));
+  var yesterday = series7[series7.length-2]||1;
+  var visTrendPct = Math.round((visitsToday-yesterday)/Math.max(1,yesterday)*100);
+  var visSub = $("#ovKpiVisitsSub"); if(visSub) visSub.textContent = (currentLang==="ar"?"مقارنة بالأمس":"vs. yesterday");
+  var visTrendEl = $("#ovKpiVisitsTrend");
+  if(visTrendEl){ visTrendEl.textContent=(visTrendPct>=0?"+":"")+visTrendPct+"%"; visTrendEl.className="stat-delta "+(visTrendPct>=0?"up":"down"); }
+  drawSimpleTrend("ovSparkVisits", series7, "var(--info)");
+  drawSimpleTrend("ovVisits7dChart", series7, "var(--info)");
+
+  var openAlerts = S.alerts.filter(function(a){ return a.status==="new"; }).length;
+  var alertsEl = $("#ovKpiAlerts"); if(alertsEl) alertsEl.textContent = openAlerts;
+  var alertsSub = $("#ovKpiAlertsSub"); if(alertsSub) alertsSub.textContent = S.alerts.length + (currentLang==="ar"?" إجمالي هذه الجلسة":" total this session");
+
+  var healthSummary = computeCamHealthSummary();
+  var pct = healthSummary.total ? Math.round(healthSummary.counts.online/healthSummary.total*100) : 100;
+  var camPctEl = $("#ovKpiCamHealthPct"); if(camPctEl) camPctEl.textContent = pct+"%";
+  var camSubEl = $("#ovKpiCamHealthSub"); if(camSubEl) camSubEl.textContent = t("ov_online_of_tpl",{n:healthSummary.counts.online, total:healthSummary.total});
+
+  var confirmed = S.alerts.filter(function(a){ return a.status==="confirmed"; }).length;
+  var falsed = S.alerts.filter(function(a){ return a.status==="false"; }).length;
+  var decided = confirmed+falsed;
+  var confirmRate = decided ? confirmed/decided : 0.3;
+  var riskNow = clamp(Math.round(14+confirmRate*45+Math.min(20,openAlerts*3)+(S.afterHours?12:0)+(S.queue>=8?8:0)),2,96);
+  var riskBadgeEl = $("#ovKpiRiskBadge");
+  if(riskBadgeEl){
+    var riskClass = riskNow>=66?"high":(riskNow>=33?"med":"low");
+    var riskKey = riskNow>=66?"risk_high":(riskNow>=33?"risk_med":"risk_low");
+    riskBadgeEl.className = "risk-badge "+riskClass;
+    riskBadgeEl.textContent = t(riskKey);
+  }
+  var riskTrendEl = $("#ovKpiRiskTrend"); if(riskTrendEl) riskTrendEl.textContent = t("ov_riskindex_tpl",{n:riskNow});
+
+  renderCamHealthWidget("ovCamHealthWidget", true);
+  var clockLabel = $("#ovKpiClockLabel"); if(clockLabel) clockLabel.textContent = fmtClock(new Date());
+  updateLiveWidgets(new Date());
 }
 
 /* ---------------- rendering: report ---------------- */
@@ -2417,13 +2977,56 @@ function fmtDateTime(ts){
   var d = new Date(ts);
   return pad2(d.getHours())+":"+pad2(d.getMinutes())+":"+pad2(d.getSeconds());
 }
+/* -- open, user-built filters for the report: date range, visit type, gender, zone, free text -- */
+var repFilters = { from:"", to:"", visitType:"all", gender:"all", zone:"all", search:"" };
+function rebuildReportFilterOptions(){
+  var zoneSel = $("#repFilterZone");
+  if(!zoneSel) return;
+  var keep = zoneSel.value || repFilters.zone || "all";
+  zoneSel.innerHTML = '<option value="all">'+t("zone_all")+'</option>'+
+    CAMERAS.map(function(c){ return '<option value="'+c.id+'">'+esc(t(c.nameKey))+'</option>'; }).join("");
+  var stillThere = Array.prototype.some.call(zoneSel.options, function(o){ return o.value===keep; });
+  zoneSel.value = stillThere ? keep : "all";
+  repFilters.zone = zoneSel.value;
+}
+function getFilteredReportRecords(){
+  var fromTs = repFilters.from ? new Date(repFilters.from).getTime() : -Infinity;
+  var toTs = repFilters.to ? new Date(repFilters.to).getTime() : Infinity;
+  var search = (repFilters.search||"").trim().toLowerCase();
+  return S.visitors.filter(function(v){
+    if(v.ts<fromTs || v.ts>toTs) return false;
+    if(repFilters.gender!=="all" && v.gender!==repFilters.gender) return false;
+    if(repFilters.zone!=="all" && (v.camera||"cam1")!==repFilters.zone) return false;
+    if(search && v.uid.toLowerCase().indexOf(search)<0) return false;
+    return true;
+  });
+}
+function getFilteredReportData(){
+  var records = getFilteredReportRecords();
+  var map = {};
+  records.forEach(function(v){
+    var e = map[v.uid];
+    if(!e){ e = map[v.uid] = { uid:v.uid, gender:v.gender, ageBand:v.ageBand, method:v.method, visits:[], first:v.ts, last:v.ts }; }
+    e.visits.push(v.ts);
+    if(v.ts<e.first) e.first = v.ts;
+    if(v.ts>e.last) e.last = v.ts;
+  });
+  var entities = Object.keys(map).map(function(k){ return map[k]; });
+  if(repFilters.visitType==="first") entities = entities.filter(function(e){ return e.visits.length===1; });
+  else if(repFilters.visitType==="returning") entities = entities.filter(function(e){ return e.visits.length>1; });
+  var keptUids = {}; entities.forEach(function(e){ keptUids[e.uid] = true; });
+  var keptRecords = records.filter(function(v){ return keptUids[v.uid]; });
+  return { records:keptRecords, entities:entities };
+}
 function renderReport(){
-  var totalVisits = S.visitors.length;
-  var pool = S.identityPool;
-  var unique = pool.length;
-  var repeats = pool.filter(function(p){ return p.visits.length>1; });
+  var totalAll = S.visitors.length, uniqueAll = S.identityPool.length;
+  var data = getFilteredReportData();
+  var records = data.records, entities = data.entities;
+  var totalVisits = records.length;
+  var unique = entities.length;
+  var repeats = entities.filter(function(e){ return e.visits.length>1; });
   var repRate = unique ? Math.round(repeats.length/unique*100) : 0;
-  var avgVisits = repeats.length ? (repeats.reduce(function(s,p){ return s+p.visits.length; },0)/repeats.length) : 0;
+  var avgVisits = repeats.length ? (repeats.reduce(function(s,e){ return s+e.visits.length; },0)/repeats.length) : 0;
 
   var elTV = $("#repTotalVisits"); if(elTV) elTV.textContent = totalVisits;
   var elU = $("#repUnique"); if(elU) elU.textContent = unique;
@@ -2434,24 +3037,23 @@ function renderReport(){
   var top = repeats.slice().sort(function(a,b){ return b.visits.length-a.visits.length; }).slice(0,10);
   var tbody = $("#repeatTableBody");
   if(tbody){
-    tbody.innerHTML = top.map(function(p){
+    tbody.innerHTML = top.map(function(e){
       return '<tr>'+
-        '<td class="report-uid">'+esc(p.uid)+'</td>'+
-        '<td>'+genderLabel({gender:p.gender})+'</td>'+
-        '<td>'+esc(p.ageBand)+'</td>'+
-        '<td>'+(p.method==="body"?t("rep_method_body"):t("rep_method_face"))+'</td>'+
-        '<td>'+p.visits.length+'</td>'+
-        '<td>'+fmtDateTime(p.firstSeen)+'</td>'+
-        '<td>'+timeAgo(p.lastSeen)+'</td>'+
+        '<td class="report-uid">'+esc(e.uid)+'</td>'+
+        '<td>'+genderLabel({gender:e.gender})+'</td>'+
+        '<td>'+esc(e.ageBand)+'</td>'+
+        '<td>'+(e.method==="body"?t("rep_method_body"):t("rep_method_face"))+'</td>'+
+        '<td>'+e.visits.length+'</td>'+
+        '<td>'+fmtDateTime(e.first)+'</td>'+
+        '<td>'+timeAgo(e.last)+'</td>'+
       '</tr>';
-    }).join("") || '<tr><td colspan="7" class="stat-sub">'+(currentLang==="ar"?"لا يوجد زوار متكررون بعد.":"No repeat visitors yet.")+'</td></tr>';
+    }).join("") || '<tr><td colspan="7" class="stat-sub">'+(currentLang==="ar"?"لا يوجد زوار متكررون يطابقون هذه المرشِّحات.":"No repeat visitors match these filters.")+'</td></tr>';
   }
 
-  var d = S.demo;
-  var elM = $("#repMaleCount"); if(elM) elM.textContent = d.male;
-  var elF = $("#repFemaleCount"); if(elF) elF.textContent = d.female;
-  var elFace = $("#repFaceCount"); if(elFace) elFace.textContent = d.viaFace;
-  var elBody = $("#repBodyCount"); if(elBody) elBody.textContent = d.viaBody;
+  var elM = $("#repMaleCount"); if(elM) elM.textContent = records.filter(function(v){return v.gender==="M";}).length;
+  var elF = $("#repFemaleCount"); if(elF) elF.textContent = records.filter(function(v){return v.gender==="F";}).length;
+  var elFace = $("#repFaceCount"); if(elFace) elFace.textContent = records.filter(function(v){return v.method==="face";}).length;
+  var elBody = $("#repBodyCount"); if(elBody) elBody.textContent = records.filter(function(v){return v.method==="body";}).length;
 
   var zoneTable = $("#repZoneTable");
   if(zoneTable){
@@ -2461,15 +3063,36 @@ function renderReport(){
     }).join("");
     zoneTable.innerHTML = '<tr><th>'+t("rep_zone_th_cam")+'</th><th>'+t("rep_zone_th_open")+'</th></tr>'+rows;
   }
+
+  var summaryEl = $("#repFilterSummary");
+  if(summaryEl) summaryEl.textContent = t("rep_filter_summary_tpl",{n:totalVisits, total:totalAll, u:unique});
 }
 function buildReportCsv(){
   var lines = [];
   lines.push(["uid","gender","age_band","method","visits","first_seen","last_seen"].join(","));
-  S.identityPool.slice().sort(function(a,b){ return b.visits.length-a.visits.length; }).forEach(function(p){
-    lines.push([p.uid, p.gender, p.ageBand, p.method, p.visits.length, new Date(p.firstSeen).toISOString(), new Date(p.lastSeen).toISOString()].join(","));
+  var data = getFilteredReportData();
+  data.entities.slice().sort(function(a,b){ return b.visits.length-a.visits.length; }).forEach(function(e){
+    lines.push([e.uid, e.gender, e.ageBand, e.method, e.visits.length, new Date(e.first).toISOString(), new Date(e.last).toISOString()].join(","));
   });
   return lines.join("\n");
 }
+function wireReportFilters(){
+  var fromEl = $("#repFilterFrom"), toEl = $("#repFilterTo"), vtEl = $("#repFilterVisitType"),
+      genEl = $("#repFilterGender"), zoneEl = $("#repFilterZone"), searchEl = $("#repFilterSearch"), clearBtn = $("#repFilterClear");
+  if(fromEl) fromEl.addEventListener("change", function(){ repFilters.from = fromEl.value; renderReport(); });
+  if(toEl) toEl.addEventListener("change", function(){ repFilters.to = toEl.value; renderReport(); });
+  if(vtEl) vtEl.addEventListener("change", function(){ repFilters.visitType = vtEl.value; renderReport(); });
+  if(genEl) genEl.addEventListener("change", function(){ repFilters.gender = genEl.value; renderReport(); });
+  if(zoneEl) zoneEl.addEventListener("change", function(){ repFilters.zone = zoneEl.value; renderReport(); });
+  if(searchEl) searchEl.addEventListener("input", function(){ repFilters.search = searchEl.value; renderReport(); });
+  if(clearBtn) clearBtn.addEventListener("click", function(){
+    repFilters = { from:"", to:"", visitType:"all", gender:"all", zone:"all", search:"" };
+    if(fromEl) fromEl.value=""; if(toEl) toEl.value=""; if(vtEl) vtEl.value="all";
+    if(genEl) genEl.value="all"; if(zoneEl) zoneEl.value="all"; if(searchEl) searchEl.value="";
+    renderReport();
+  });
+}
+wireReportFilters();
 var reportCopyBtn = $("#reportCopyBtn");
 if(reportCopyBtn){
   reportCopyBtn.addEventListener("click", function(){
@@ -2490,6 +3113,145 @@ if(reportCopyBtn){
         navigator.clipboard.writeText(csv).then(ok, fail);
       } else { fail(); }
     }catch(e){ fail(); }
+  });
+}
+
+/* ---------------- Support & SLA (ITSM ticket queue) ---------------- */
+var SLA_POLICY = {
+  P1:{ responseMs:15*60000, resolutionMs:4*3600000 },
+  P2:{ responseMs:3600000, resolutionMs:8*3600000 },
+  P3:{ responseMs:4*3600000, resolutionMs:24*3600000 },
+  P4:{ responseMs:20*3600000, resolutionMs:72*3600000 } // "next business day" response, modelled as ~20h
+};
+var TICKET_CATEGORIES = ["camera_offline","storage","false_alert","network","access","other"];
+function fmtDuration(ms, lang){
+  ms = Math.max(0, ms);
+  var mins = Math.round(ms/60000);
+  if(mins<60) return mins+"m";
+  var hours = mins/60;
+  if(hours<48) return (Math.round(hours*10)/10)+"h";
+  return Math.round(hours/24)+(lang==="ar"?"ي":"d");
+}
+// Deterministic per-site ticket seed data, rebuilt whenever the site changes so
+// each mall has its own consistent, but different, service-desk history.
+function buildTickets(site){
+  var seedBase = site.lat*1000+site.lng;
+  var n = 8 + Math.round(seededRand(seedBase)*6); // 8-13 tickets
+  var tickets = [];
+  var now = Date.now();
+  for(var i=0;i<n;i++){
+    var seed = seedBase + i*17.3;
+    var priority = ["P1","P2","P3","P4"][Math.floor(seededRand(seed)*4)];
+    var category = TICKET_CATEGORIES[Math.floor(seededRand(seed+3)*TICKET_CATEGORIES.length)];
+    var ageDays = seededRand(seed+5)*10; // opened sometime in the last ~10 days
+    var openedAt = now - ageDays*86400000;
+    var policy = SLA_POLICY[priority];
+    var dueAt = openedAt + policy.resolutionMs;
+    var respondedAt = openedAt + policy.responseMs*(0.4+seededRand(seed+7)*1.3);
+    var outcomeRoll = seededRand(seed+11);
+    var status, resolvedAt = null;
+    if(outcomeRoll<0.5){
+      status = "Resolved";
+      resolvedAt = openedAt + policy.resolutionMs*(0.35+seededRand(seed+13)*0.75);
+    } else if(outcomeRoll<0.65){
+      status = "Breached";
+      resolvedAt = dueAt + policy.resolutionMs*(0.15+seededRand(seed+17)*0.6);
+    } else if(outcomeRoll<0.85){
+      status = "InProgress";
+    } else {
+      status = "Open";
+    }
+    if((status==="Open"||status==="InProgress") && now>dueAt) status = "Breached";
+    tickets.push({
+      id:"TCK-"+String(1000+i),
+      priority:priority, category:category, status:status,
+      openedAt:openedAt, dueAt:dueAt, respondedAt:respondedAt, resolvedAt:resolvedAt,
+      description:""
+    });
+  }
+  return tickets.sort(function(a,b){ return b.openedAt-a.openedAt; });
+}
+function ticketRemainingBadge(tk){
+  var now = Date.now();
+  if(tk.status==="Resolved"){
+    var cls = tk.resolvedAt<=tk.dueAt ? "ok" : "bad";
+    return '<span class="sla-remaining '+cls+'">'+t("sup_status_resolved")+'</span>';
+  }
+  if(tk.status==="Breached"){
+    var overdueBy = (tk.resolvedAt ? tk.resolvedAt : now) - tk.dueAt;
+    return '<span class="sla-remaining bad">'+t("sup_remaining_overdue",{t:fmtDuration(overdueBy, currentLang)})+'</span>';
+  }
+  var remaining = tk.dueAt-now;
+  if(remaining<=0) return '<span class="sla-remaining bad">'+t("sup_remaining_overdue",{t:fmtDuration(-remaining, currentLang)})+'</span>';
+  var cls2 = remaining < 2*3600000 ? "warn" : "ok";
+  return '<span class="sla-remaining '+cls2+'">'+t("sup_remaining_left",{t:fmtDuration(remaining, currentLang)})+'</span>';
+}
+function renderSupport(){
+  var host = $("#page-support"); if(!host) return;
+  var tickets = S.tickets || [];
+  var resolved = tickets.filter(function(tk){ return (tk.status==="Resolved"||tk.status==="Breached") && tk.resolvedAt; });
+  var avgResponseMs = tickets.length ? tickets.reduce(function(s,tk){ return s+(tk.respondedAt-tk.openedAt); },0)/tickets.length : 0;
+  var avgResolutionMs = resolved.length ? resolved.reduce(function(s,tk){ return s+(tk.resolvedAt-tk.openedAt); },0)/resolved.length : 0;
+  var metResolved = resolved.filter(function(tk){ return tk.resolvedAt<=tk.dueAt; }).length;
+  var compliance = resolved.length ? Math.round(metResolved/resolved.length*100) : 100;
+  var openCount = tickets.filter(function(tk){ return tk.status==="Open"||tk.status==="InProgress"; }).length;
+  var breachedCount = tickets.filter(function(tk){ return tk.status==="Breached"; }).length;
+
+  var elResp = $("#supAvgResponse"); if(elResp) elResp.textContent = fmtDuration(avgResponseMs, currentLang);
+  var elRes = $("#supAvgResolution"); if(elRes) elRes.textContent = fmtDuration(avgResolutionMs, currentLang);
+  var elComp = $("#supCompliance"); if(elComp) elComp.textContent = compliance+"%";
+  var elOpen = $("#supOpenCount"); if(elOpen) elOpen.textContent = openCount;
+  var elBreachedSub = $("#supBreachedSub"); if(elBreachedSub) elBreachedSub.textContent = t("sup_breached_tpl",{n:breachedCount});
+
+  var statusKeyMap = { Open:"sup_status_open", InProgress:"sup_status_inprogress", Resolved:"sup_status_resolved", Breached:"sup_status_breached" };
+  var statusClassMap = { Open:"open", InProgress:"inprogress", Resolved:"resolved", Breached:"breached" };
+  var catKeyMap = { camera_offline:"sup_cat_camera", storage:"sup_cat_storage", false_alert:"sup_cat_falsealert", network:"sup_cat_network", access:"sup_cat_access", other:"sup_cat_other" };
+  var tbody = $("#supTicketBody");
+  if(tbody){
+    tbody.innerHTML = tickets.map(function(tk){
+      return '<tr>'+
+        '<td class="mono">'+tk.id+'</td>'+
+        '<td><span class="prio-badge '+tk.priority+'">'+tk.priority+'</span></td>'+
+        '<td>'+t(catKeyMap[tk.category]||"sup_cat_other")+'</td>'+
+        '<td><span class="status-chip '+statusClassMap[tk.status]+'">'+t(statusKeyMap[tk.status])+'</span></td>'+
+        '<td class="mono" style="direction:ltr;">'+fmtDateTime(tk.openedAt)+'</td>'+
+        '<td class="mono" style="direction:ltr;">'+fmtDateTime(tk.dueAt)+'</td>'+
+        '<td>'+ticketRemainingBadge(tk)+'</td>'+
+      '</tr>';
+    }).join("") || '<tr><td colspan="7" class="stat-sub">'+(currentLang==="ar"?"لا توجد تذاكر لهذا الموقع.":"No tickets for this site.")+'</td></tr>';
+  }
+
+  var policyBody = $("#supPolicyBody");
+  if(policyBody){
+    policyBody.innerHTML = ["P1","P2","P3","P4"].map(function(p){
+      var pol = SLA_POLICY[p];
+      var respLabel = p==="P4" ? t("sup_next_bizday") : fmtDuration(pol.responseMs, currentLang);
+      return '<tr><td><span class="prio-badge '+p+'">'+p+'</span></td><td>'+respLabel+'</td><td>'+fmtDuration(pol.resolutionMs, currentLang)+'</td></tr>';
+    }).join("");
+  }
+
+  var navBadge = $("#navTicketBadge");
+  if(navBadge) navBadge.textContent = openCount+breachedCount;
+  var descEl = $("#supNewDesc"); if(descEl) descEl.placeholder = t("sup_desc_placeholder");
+}
+var supRaiseBtn = $("#supRaiseBtn");
+if(supRaiseBtn){
+  supRaiseBtn.addEventListener("click", function(){
+    var catEl = $("#supNewCategory"), prioEl = $("#supNewPriority"), descEl = $("#supNewDesc");
+    var priority = prioEl ? prioEl.value : "P3";
+    var category = catEl ? catEl.value : "other";
+    var now = Date.now();
+    var policy = SLA_POLICY[priority];
+    var tk = {
+      id:"TCK-"+String(1000 + (S.tickets?S.tickets.length:0) + S.ticketSeq++),
+      priority:priority, category:category, status:"Open",
+      openedAt:now, dueAt:now+policy.resolutionMs, respondedAt:now+policy.responseMs*0.6, resolvedAt:null,
+      description: descEl ? descEl.value.slice(0,300) : ""
+    };
+    S.tickets.unshift(tk);
+    if(descEl) descEl.value = "";
+    renderSupport();
+    toast(t("toast_ticket_title"), t("toast_ticket_body",{id:tk.id, t:fmtDuration(policy.resolutionMs, currentLang)}), "good");
   });
 }
 
@@ -2559,7 +3321,13 @@ function drawRiskChart(pts){
   svg.innerHTML = '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>'+
     '<circle cx="'+lastX.toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="4" fill="'+color+'"/>';
 }
-var anFilters = { range:14, zone:"all", segment:"all" };
+var anFilters = { range:14, zone:"all", segment:"all", visitType:"all", customFrom:"", customTo:"" };
+function anResolveRangeDays(f){
+  if(f.range!=="custom") return f.range;
+  if(!f.customFrom || !f.customTo) return 14;
+  var days = Math.round((new Date(f.customTo).getTime()-new Date(f.customFrom).getTime())/86400000)+1;
+  return clamp(days, 1, 90);
+}
 var ZONE_SHARE = { cam1:0.32, cam2:0.34, cam3:0.20, cam4:0.14 };
 var ZONE_HOUR_CENTER = { cam1:13.5, cam2:19.5, cam3:20, cam4:15 };
 function zoneNameFor(zoneId){
@@ -2570,10 +3338,16 @@ function zoneNameFor(zoneId){
 function segmentNameFor(seg){
   return seg==="all" ? t("segment_all") : (seg==="M" ? t("segment_male") : t("segment_female"));
 }
-function bandCountsForSegment(segment){
+function anVisitTypeMatches(v, visitType){
+  if(visitType==="first") return !v.returning;
+  if(visitType==="returning") return !!v.returning;
+  return true;
+}
+function bandCountsForSegment(segment, visitType){
   var counts = AGE_BANDS.map(function(){ return 0; });
   S.visitors.forEach(function(v){
     if(segment!=="all" && v.gender!==segment) return;
+    if(!anVisitTypeMatches(v, visitType)) return;
     var idx = AGE_BANDS.indexOf(v.ageBand);
     if(idx>=0) counts[idx]++;
   });
@@ -2594,7 +3368,7 @@ function renderAnalytics(){
   if(elSummary) elSummary.innerHTML = t("an_filtered_by",{zone:zoneNameFor(f.zone), segment:segmentNameFor(f.segment)});
 
   // ---- footfall history + N-day forecast ----
-  var range = f.range;
+  var range = anResolveRangeDays(f);
   var totalDays = range+3;
   var series = [];
   for(var i=0;i<totalDays;i++){
@@ -2631,11 +3405,11 @@ function renderAnalytics(){
     grid.push(row);
   }
   drawHeatmapChart(grid, hours);
-  var elBH = $("#anBusiestHour"); if(elBH) elBH.textContent = busiest.hour+":00–"+(busiest.hour+1)+":00";
+  var elBH = $("#anBusiestHour"); if(elBH) elBH.textContent = busiest.hour+":00-"+(busiest.hour+1)+":00";
   var elBD = $("#anBusiestDay"); if(elBD) elBD.textContent = t(DAY_KEYS[busiest.day])+(currentLang==="ar"?" · أعلى ازدحام متوقع":" · highest predicted footfall");
 
   // ---- demographic mix projection (segment-aware) ----
-  var bandCounts = bandCountsForSegment(f.segment);
+  var bandCounts = bandCountsForSegment(f.segment, f.visitType);
   var bandSum = bandCounts.reduce(function(a,b){return a+b;},0);
   var hasData = bandSum>0;
   var bandShares = hasData ? bandCounts : AGE_BANDS.map(function(){return 1;});
@@ -2680,6 +3454,8 @@ function renderAnalytics(){
 
   // ---- visitor loyalty distribution (segment-aware) ----
   var pool = f.segment==="all" ? S.identityPool : S.identityPool.filter(function(p){ return p.gender===f.segment; });
+  if(f.visitType==="first") pool = pool.filter(function(p){ return p.visits.length<=1; });
+  else if(f.visitType==="returning") pool = pool.filter(function(p){ return p.visits.length>1; });
   var buckets = {1:0,2:0,3:0,"4+":0};
   pool.forEach(function(p){
     var n = p.visits.length;
@@ -2700,10 +3476,15 @@ $all("#anRangeFilter .chip").forEach(function(c){
   c.addEventListener("click", function(){
     $all("#anRangeFilter .chip").forEach(function(x){ x.classList.remove("active"); });
     c.classList.add("active");
-    anFilters.range = parseInt(c.dataset.range,10);
+    var isCustom = c.dataset.range==="custom";
+    anFilters.range = isCustom ? "custom" : parseInt(c.dataset.range,10);
+    var row = $("#anCustomRangeRow"); if(row) row.style.display = isCustom ? "grid" : "none";
     renderAnalytics();
   });
 });
+var anCustomFromEl = $("#anCustomFrom"), anCustomToEl = $("#anCustomTo");
+if(anCustomFromEl) anCustomFromEl.addEventListener("change", function(){ anFilters.customFrom = anCustomFromEl.value; if(anFilters.range==="custom") renderAnalytics(); });
+if(anCustomToEl) anCustomToEl.addEventListener("change", function(){ anFilters.customTo = anCustomToEl.value; if(anFilters.range==="custom") renderAnalytics(); });
 $all("#anZoneFilter .chip").forEach(function(c){
   c.addEventListener("click", function(){
     $all("#anZoneFilter .chip").forEach(function(x){ x.classList.remove("active"); });
@@ -2717,6 +3498,14 @@ $all("#anSegmentFilter .chip").forEach(function(c){
     $all("#anSegmentFilter .chip").forEach(function(x){ x.classList.remove("active"); });
     c.classList.add("active");
     anFilters.segment = c.dataset.segment;
+    renderAnalytics();
+  });
+});
+$all("#anVisitTypeFilter .chip").forEach(function(c){
+  c.addEventListener("click", function(){
+    $all("#anVisitTypeFilter .chip").forEach(function(x){ x.classList.remove("active"); });
+    c.classList.add("active");
+    anFilters.visitType = c.dataset.visittype;
     renderAnalytics();
   });
 });
@@ -2738,12 +3527,15 @@ function resetAll(){
   camState = { entrance:[], sales:[], queue:[], restricted:[] };
   heatGrid.g.forEach(function(row){ row.fill(0); });
   renderOccupancy(); renderRecentStrip(); renderVisitors(); renderAlerts(); renderZones(); renderReport(); drawHeat();
+  if(typeof renderOverview==="function") renderOverview();
   toast(t("toast_reset_title"), t("toast_reset_body"), "good");
 }
 $("#resetBtn").addEventListener("click", resetAll);
 $("#occReset").addEventListener("click", resetAll);
 
 /* ---------------- boot ---------------- */
+S.tickets = buildTickets(SITES[currentSiteId]);
+rebuildReportFilterOptions();
 (function initThemeAndLang(){
   var savedTheme = "dark", savedLang = "en";
   try{
@@ -2762,6 +3554,8 @@ renderAlerts();
 renderZones();
 renderReport();
 renderAnalytics();
+renderSupport();
+renderOverview();
 drawHeat();
 // seed a little history so the chart isn't empty on load
 for(var i=0;i<20;i++){ S.history.push(0); }
