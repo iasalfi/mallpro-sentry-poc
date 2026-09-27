@@ -389,6 +389,24 @@
     border-radius:999px; padding:4px 11px; white-space:nowrap;
   }
   .meta-chip b{ color:var(--text); font-weight:600; }
+  .card.linkable{ cursor:pointer; transition:border-color .12s, transform .12s; }
+  .card.linkable:hover{ border-color:var(--accent); transform:translateY(-1px); }
+  .hoverchart{ cursor:crosshair; }
+  .chart-tooltip{
+    position:fixed; z-index:999; pointer-events:none; background:var(--surface-2); border:1px solid var(--border);
+    border-radius:8px; padding:6px 10px; font-size:12px; opacity:0; transform:translateY(4px);
+    transition:opacity .08s ease; box-shadow:0 6px 18px rgba(0,0,0,.28);
+  }
+  .chart-tooltip.show{ opacity:1; }
+  .chart-tooltip .tt-label{ color:var(--text-faint); font-size:10px; text-transform:uppercase; letter-spacing:.05em; }
+  .chart-tooltip .tt-value{ font-weight:700; margin-top:2px; font-family:'Sora',sans-serif; }
+  .split-bar{ display:flex; height:10px; border-radius:6px; overflow:hidden; margin:12px 0 8px; background:var(--surface-2); }
+  .split-bar .split-new{ background:var(--info); display:block; height:100%; }
+  .split-bar .split-return{ background:var(--accent); display:block; height:100%; }
+  .split-legend{ display:flex; gap:16px; font-size:11.5px; color:var(--text-faint); }
+  .split-legend .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-inline-end:5px; }
+  .split-legend .dot.new{ background:var(--info); }
+  .split-legend .dot.return{ background:var(--accent); }
   .hero h1{ font-size:22px; line-height:1.3; margin:0 0 8px; max-width:720px; }
   .hero p{ color:var(--text-dim); font-size:13.5px; max-width:620px; margin:0 0 14px; }
 
@@ -573,6 +591,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <div class="toast-wrap" id="toastWrap"></div>
+<div class="chart-tooltip" id="chartTooltip"></div>
 
 <div class="app">
   <aside class="sidebar">
@@ -708,25 +727,25 @@
 
       <div class="section-row" style="margin-top:6px;"><h2 data-i18n="ov_kpi_title">Right now, at this site</h2><span class="see" id="ovKpiClockLabel">&nbsp;</span></div>
       <div class="grid cols-4" id="ovKpiRow">
-        <div class="card stat-card">
+        <div class="card stat-card linkable" data-goto="occupancy">
           <div class="stat-label" data-i18n="ov_kpi_occ">Occupancy vs capacity</div>
           <div class="stat-value" id="ovKpiOcc">0</div>
           <div class="stat-sub" id="ovKpiOccSub">of 0</div>
           <div class="kpi-trend-row"><span class="stat-delta" id="ovKpiOccTrend">+0</span><svg id="ovSparkOcc" viewBox="0 0 120 26" style="width:64px;height:22px;" preserveAspectRatio="none"></svg></div>
         </div>
-        <div class="card stat-card">
+        <div class="card stat-card linkable" data-goto="visitors">
           <div class="stat-label" data-i18n="ov_kpi_visits">Visits today</div>
           <div class="stat-value" id="ovKpiVisits">0</div>
           <div class="stat-sub" id="ovKpiVisitsSub">&nbsp;</div>
           <div class="kpi-trend-row"><span class="stat-delta" id="ovKpiVisitsTrend">+0</span><svg id="ovSparkVisits" viewBox="0 0 120 26" style="width:64px;height:22px;" preserveAspectRatio="none"></svg></div>
         </div>
-        <div class="card stat-card">
+        <div class="card stat-card linkable" data-goto="loss">
           <div class="stat-label" data-i18n="ov_kpi_alerts">Open loss-prevention cues</div>
           <div class="stat-value" id="ovKpiAlerts">0</div>
           <div class="stat-sub" id="ovKpiAlertsSub">&nbsp;</div>
           <div class="kpi-trend-row"><span class="risk-badge low" id="ovKpiRiskBadge">Low</span></div>
         </div>
-        <div class="card stat-card">
+        <div class="card stat-card linkable" data-goto="cameras">
           <div class="stat-label" data-i18n="ov_kpi_camhealth">Camera fleet health</div>
           <div class="stat-value" id="ovKpiCamHealthPct">100%</div>
           <div class="stat-sub" id="ovKpiCamHealthSub">0 / 0 online</div>
@@ -735,32 +754,32 @@
       </div>
 
       <div class="grid cols-2" style="margin-top:14px; align-items:start;">
-        <div class="card">
+        <div class="card linkable" data-goto="occupancy">
           <div class="card-title" data-i18n="ov_occtrend_title">Occupancy, last 6 minutes</div>
-          <svg id="ovOccChart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
+          <svg id="ovOccChart" class="hoverchart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
         </div>
-        <div class="card">
+        <div class="card linkable" data-goto="visitors">
           <div class="card-title" data-i18n="ov_visits7d_title">Visits, last 7 days</div>
-          <svg id="ovVisits7dChart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
+          <svg id="ovVisits7dChart" class="hoverchart" viewBox="0 0 800 120" style="width:100%; height:110px; display:block;" preserveAspectRatio="none"></svg>
         </div>
       </div>
 
       <div class="grid cols-2" style="margin-top:14px; align-items:start;">
-        <div class="card">
-          <div class="card-title" data-i18n="ov_camhealth_title">Camera fleet at a glance</div>
-          <div id="ovCamHealthWidget"></div>
-        </div>
-        <div class="card">
-          <div class="card-title" data-i18n="ov_clock_title">Site clock</div>
-          <div class="live-widget card-style" id="ovLiveWidget">
-            <div class="lw-icon" id="ovLiveIcon"></div>
-            <div class="lw-body">
-              <div class="lw-time mono" id="ovLiveTime" style="font-size:22px;">--:--:--</div>
-              <div class="lw-date" id="ovLiveDate">&nbsp;</div>
-            </div>
-            <div class="lw-temp" id="ovLiveTemp" style="font-size:18px;">--&deg;C</div>
+        <div class="card linkable" data-goto="report">
+          <div class="card-title" data-i18n="ov_loyalty_title">Loyal shoppers, recognized on return</div>
+          <div class="stat-value" id="ovLoyaltyPct">0%</div>
+          <div class="stat-sub" id="ovLoyaltySub">0 of 0 visits are a repeat face</div>
+          <div class="split-bar" id="ovLoyaltyBar"><span class="split-new"></span><span class="split-return"></span></div>
+          <div class="split-legend">
+            <span><i class="dot new"></i><span data-i18n="ov_legend_new">First-time</span></span>
+            <span><i class="dot return"></i><span data-i18n="ov_legend_return">Returning</span></span>
           </div>
-          <p class="stat-sub" style="margin-top:10px;" data-i18n="ov_clock_note">A deterministic reading tied to this device's clock and Jeddah's usual daily temperature curve, not a live weather feed.</p>
+        </div>
+        <div class="card linkable" data-goto="visitors">
+          <div class="card-title" data-i18n="ov_newvisitors_title">New shoppers welcomed today</div>
+          <div class="stat-value" id="ovNewVisitors">0</div>
+          <div class="stat-sub" id="ovNewVisitorsSub">first visit recorded this session</div>
+          <div class="kpi-trend-row"><span class="stat-delta up" id="ovNewVisitorsTrend">+0%</span><span class="stat-sub" data-i18n="ov_newvisitors_note">against yesterday's first-time footfall</span></div>
         </div>
       </div>
 
@@ -1796,12 +1815,14 @@ var STR = {
   ov_kpi_camhealth:{en:"Camera fleet health", ar:"حالة أسطول الكاميرات"},
   ov_occtrend_title:{en:"Occupancy, last 6 minutes", ar:"الإشغال، آخر 6 دقائق"},
   ov_visits7d_title:{en:"Visits, last 7 days", ar:"الزيارات، آخر 7 أيام"},
-  ov_camhealth_title:{en:"Camera fleet at a glance", ar:"أسطول الكاميرات في لمحة"},
-  ov_clock_title:{en:"Site clock", ar:"ساعة الموقع"},
-  ov_clock_note:{en:"A deterministic reading tied to this device's clock and Jeddah's usual daily temperature curve, not a live weather feed.",
-    ar:"قراءة حتمية مرتبطة بساعة هذا الجهاز ومنحنى الحرارة اليومي المعتاد في جدة، وليست بثًا مباشرًا لحالة الطقس."},
   ov_riskindex_tpl:{en:"Risk index {n}/100", ar:"مؤشر المخاطر {n}/100"},
   ov_online_of_tpl:{en:"{n} / {total} online", ar:"{n} / {total} متصلة"},
+  ov_loyalty_title:{en:"Loyal shoppers, recognized on return", ar:"زوار مخلصون، تم التعرّف عليهم عند العودة"},
+  ov_loyalty_sub_tpl:{en:"{n} of {total} visits are a repeat face this session", ar:"{n} من أصل {total} زيارة لوجه معاود هذه الجلسة"},
+  ov_legend_new:{en:"First-time", ar:"زيارة أولى"}, ov_legend_return:{en:"Returning", ar:"عائد"},
+  ov_newvisitors_title:{en:"New shoppers welcomed today", ar:"زوار جدد استُقبلوا اليوم"},
+  ov_newvisitors_sub:{en:"first visit recorded this session", ar:"أول زيارة مسجّلة في هذه الجلسة"},
+  ov_newvisitors_note:{en:"against yesterday's first-time footfall", ar:"مقارنة بزوار الأمس الجدد"},
 
   rep_filters_title:{en:"Build a filtered view", ar:"إنشاء عرض مُصفّى"},
   rep_filter_from:{en:"From", ar:"من"}, rep_filter_to:{en:"To", ar:"إلى"},
@@ -2893,6 +2914,33 @@ function renderCameras(){
 // page (KPI sparklines and the two larger cards). Reads the target element's
 // own viewBox attribute, so the same function draws a 120x26 sparkline and an 800x120
 // card chart without any extra configuration.
+function showChartTooltip(x, y, label, value){
+  var tip = $("#chartTooltip"); if(!tip) return;
+  tip.innerHTML = '<div class="tt-label">'+esc(label)+'</div><div class="tt-value">'+esc(value)+'</div>';
+  var left = x+16, top = y-12;
+  if(left > window.innerWidth-160) left = x-176;
+  tip.style.left = left+"px"; tip.style.top = top+"px";
+  tip.classList.add("show");
+}
+function hideChartTooltip(){ var tip = $("#chartTooltip"); if(tip) tip.classList.remove("show"); }
+function wireChartHover(svgId){
+  var svg = document.getElementById(svgId);
+  if(!svg || svg.__hoverWired) return;
+  svg.__hoverWired = true;
+  svg.addEventListener("mousemove", function(e){
+    var pts = svg.__pts, labels = svg.__labels;
+    if(!pts || pts.length<2) return;
+    var rect = svg.getBoundingClientRect();
+    var vb = (svg.getAttribute("viewBox")||"0 0 800 120").split(" ").map(Number);
+    var W = vb[2]||800, H = vb[3]||120, pad = Math.max(2, H*0.08);
+    var relX = (e.clientX-rect.left)/Math.max(1,rect.width)*W;
+    var stepX = (W-pad*2)/(pts.length-1);
+    var idx = clamp(Math.round((relX-pad)/stepX), 0, pts.length-1);
+    var unit = svg.__unit||"";
+    showChartTooltip(e.clientX, e.clientY, (labels&&labels[idx])||"", Math.round(pts[idx])+unit);
+  });
+  svg.addEventListener("mouseleave", hideChartTooltip);
+}
 function drawSimpleTrend(svgId, pts, color){
   var svg = document.getElementById(svgId); if(!svg) return;
   var vbAttr = (svg.getAttribute("viewBox")||"0 0 800 120").split(" ").map(Number);
@@ -2926,7 +2974,18 @@ function renderOverview(){
   var occTrendEl = $("#ovKpiOccTrend");
   if(occTrendEl){ occTrendEl.textContent=(occTrendVal>=0?"+":"")+occTrendVal; occTrendEl.className="stat-delta "+(occTrendVal>=0?"up":"down"); }
   drawSimpleTrend("ovSparkOcc", histPts, "var(--accent)");
-  drawSimpleTrend("ovOccChart", S.history.length ? S.history.slice(-72) : [0,0], "var(--accent)");
+  var occChartPts = S.history.length ? S.history.slice(-72) : [0,0];
+  drawSimpleTrend("ovOccChart", occChartPts, "var(--accent)");
+  (function(){
+    var svg = document.getElementById("ovOccChart"); if(!svg) return;
+    svg.__pts = occChartPts; svg.__unit = currentLang==="ar" ? " شخص" : " people";
+    svg.__labels = occChartPts.map(function(_,i){
+      var secAgo = Math.round((occChartPts.length-1-i)*4.5);
+      if(secAgo===0) return currentLang==="ar" ? "الآن" : "now";
+      return currentLang==="ar" ? ("قبل "+secAgo+" ث") : (secAgo+"s ago");
+    });
+    wireChartHover("ovOccChart");
+  })();
 
   var visitsToday = S.entries;
   var visEl = $("#ovKpiVisits"); if(visEl) visEl.textContent = visitsToday;
@@ -2943,6 +3002,20 @@ function renderOverview(){
   if(visTrendEl){ visTrendEl.textContent=(visTrendPct>=0?"+":"")+visTrendPct+"%"; visTrendEl.className="stat-delta "+(visTrendPct>=0?"up":"down"); }
   drawSimpleTrend("ovSparkVisits", series7, "var(--info)");
   drawSimpleTrend("ovVisits7dChart", series7, "var(--info)");
+  (function(){
+    var svg = document.getElementById("ovVisits7dChart"); if(!svg) return;
+    svg.__pts = series7; svg.__unit = currentLang==="ar" ? " زيارة" : " visits";
+    var dayNamesEn = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    var dayNamesAr = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+    var todayIdx = new Date().getDay();
+    svg.__labels = series7.map(function(_,i){
+      var offset = series7.length-1-i;
+      if(offset===0) return currentLang==="ar" ? "اليوم" : "Today";
+      var dIdx = (todayIdx-offset+70)%7;
+      return currentLang==="ar" ? dayNamesAr[dIdx] : dayNamesEn[dIdx];
+    });
+    wireChartHover("ovVisits7dChart");
+  })();
 
   var openAlerts = S.alerts.filter(function(a){ return a.status==="new"; }).length;
   var alertsEl = $("#ovKpiAlerts"); if(alertsEl) alertsEl.textContent = openAlerts;
@@ -2967,7 +3040,22 @@ function renderOverview(){
   }
   var riskTrendEl = $("#ovKpiRiskTrend"); if(riskTrendEl) riskTrendEl.textContent = t("ov_riskindex_tpl",{n:riskNow});
 
-  renderCamHealthWidget("ovCamHealthWidget", true);
+  var totalVisits = S.visitors.length;
+  var returningVisits = S.visitors.filter(function(v){ return v.returning; }).length;
+  var newVisits = totalVisits - returningVisits;
+  var loyaltyPct = totalVisits ? Math.round(returningVisits/totalVisits*100) : 0;
+  var loyaltyPctEl = $("#ovLoyaltyPct"); if(loyaltyPctEl) loyaltyPctEl.textContent = loyaltyPct+"%";
+  var loyaltySubEl = $("#ovLoyaltySub"); if(loyaltySubEl) loyaltySubEl.textContent = t("ov_loyalty_sub_tpl",{n:returningVisits, total:totalVisits});
+  var barNewEl = $("#ovLoyaltyBar .split-new"); if(barNewEl) barNewEl.style.width = (totalVisits ? Math.round(newVisits/totalVisits*100) : 50)+"%";
+  var barReturnEl = $("#ovLoyaltyBar .split-return"); if(barReturnEl) barReturnEl.style.width = (totalVisits ? loyaltyPct : 50)+"%";
+
+  var newVisitsEl = $("#ovNewVisitors"); if(newVisitsEl) newVisitsEl.textContent = newVisits;
+  var newVisitsSubEl = $("#ovNewVisitorsSub"); if(newVisitsSubEl) newVisitsSubEl.textContent = t("ov_newvisitors_sub");
+  var yesterdayNewApprox = Math.max(1, Math.round(site.capacity*0.5*(0.75+seededRand(site.lat*321)*0.5)));
+  var newTrendPct = Math.round((newVisits-yesterdayNewApprox)/Math.max(1,yesterdayNewApprox)*100);
+  var newTrendEl = $("#ovNewVisitorsTrend");
+  if(newTrendEl){ newTrendEl.textContent=(newTrendPct>=0?"+":"")+newTrendPct+"%"; newTrendEl.className="stat-delta "+(newTrendPct>=0?"up":"down"); }
+
   var clockLabel = $("#ovKpiClockLabel"); if(clockLabel) clockLabel.textContent = fmtClock(new Date());
   updateLiveWidgets(new Date());
 }
