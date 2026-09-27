@@ -697,7 +697,7 @@
     </button>
 
     <div class="sidebar-foot">
-      <div><b data-i18n="foot_appliance">Appliance:</b> EDGE-SM-01</div>
+      <div><b data-i18n="foot_appliance">Appliance:</b> <span class="mono" style="direction:ltr;">EDGE-SM-01</span></div>
       <div><b data-i18n="foot_site">Site:</b> <span id="footSiteName">-</span></div>
       <div id="footClock" class="mono">--:--:--</div>
     </div>
@@ -1174,7 +1174,7 @@
             </div>
           </div>
           <div class="kv" style="margin-top:6px;"><span data-i18n="sys_tier">Tier</span><span id="sysTierValue">Small</span></div>
-          <div class="kv"><span data-i18n="sys_refgpu">Reference GPU</span><span id="sysRefGpuValue">GTX 1660S class</span></div>
+          <div class="kv"><span data-i18n="sys_refgpu">Reference GPU</span><span class="mono" style="direction:ltr;" id="sysRefGpuValue">GTX 1660S class</span></div>
           <div class="kv"><span data-i18n="sys_cams_licensed">Cameras licensed</span><span id="sysCamsLicensedValue">4 / 4</span></div>
           <div class="kv"><span data-i18n="sys_uptime">Uptime</span><span class="mono" id="uptimeVal">00:00:00</span></div>
         </div>
@@ -1885,6 +1885,52 @@ function t(key, vars){
 function applyStaticI18n(){
   $all("[data-i18n]").forEach(function(el){ el.innerHTML = t(el.getAttribute("data-i18n")); });
 }
+
+/* -- Eastern Arabic-Indic numerals: every rendered number should read in the
+   active script, not just the surrounding words. A live MutationObserver keeps
+   this true for text that updates after the fact (KPIs, clocks, tables), skipping
+   technical/identifier fields (IPs, stream URLs, ticket IDs, coordinates, form
+   controls) which stay in Western digits by convention, same as elsewhere in the app. */
+var AR_DIGITS = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+function toArabicDigits(s){ return String(s).replace(/[0-9]/g, function(d){ return AR_DIGITS[+d]; }); }
+function toLatinDigits(s){ return String(s).replace(/[٠-٩]/g, function(d){ return String(AR_DIGITS.indexOf(d)); }); }
+function digitLocaleSkips(el){
+  while(el){
+    if(el.nodeType===1){
+      if(el.classList && el.classList.contains("mono")) return true;
+      if(el.tagName==="INPUT"||el.tagName==="SELECT"||el.tagName==="TEXTAREA"||el.tagName==="SCRIPT"||el.tagName==="STYLE") return true;
+      if(el.style && el.style.direction==="ltr") return true;
+    }
+    el = el.parentNode;
+  }
+  return false;
+}
+function localizeTextNode(node){
+  if(node.nodeType!==3 || !node.data) return;
+  if(digitLocaleSkips(node.parentNode)) return;
+  var next = currentLang==="ar" ? toArabicDigits(node.data) : toLatinDigits(node.data);
+  if(next!==node.data) node.data = next;
+}
+function localizeDigitsIn(root){
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+  var node;
+  while((node = walker.nextNode())) localizeTextNode(node);
+}
+(function watchDigitLocale(){
+  if(!window.MutationObserver || !document.body) return;
+  var obs = new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      if(m.type==="characterData"){ localizeTextNode(m.target); }
+      else if(m.type==="childList"){
+        m.addedNodes.forEach(function(n){
+          if(n.nodeType===3) localizeTextNode(n);
+          else if(n.nodeType===1) localizeDigitsIn(n);
+        });
+      }
+    });
+  });
+  obs.observe(document.body, { childList:true, subtree:true, characterData:true });
+})();
 function applyLang(lang){
   currentLang = lang;
   document.documentElement.lang = lang;
@@ -1902,6 +1948,7 @@ function applyLang(lang){
   if(typeof renderSupport==="function") renderSupport();
   if(typeof rebuildReportFilterOptions==="function") rebuildReportFilterOptions();
   updateLiveWidgets(new Date());
+  localizeDigitsIn(document.body);
 }
 function applyTheme(theme){
   document.documentElement.dataset.theme = theme;
@@ -2900,9 +2947,9 @@ function renderCameras(){
     return '<div class="card">'+
       '<div class="card-title">'+esc(t(c.nameKey))+'<span class="cam-role '+(c.role==="entrance"?"entrance":"")+'">'+t(c.role==="entrance"?"role_entrance":"role_interior")+'</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_zone")+'</span><span>'+esc(t(c.zoneKey))+'</span></div>'+
-      '<div class="kv"><span>'+t("cam_kv_stream")+'</span><span>rtsp://'+c.ip+'/stream1</span></div>'+
-      '<div class="kv"><span>'+t("cam_kv_res")+'</span><span>'+c.res+'</span></div>'+
-      '<div class="kv"><span>'+t("cam_kv_fps")+'</span><span>'+c.fps+' fps</span></div>'+
+      '<div class="kv"><span>'+t("cam_kv_stream")+'</span><span class="mono" style="direction:ltr;">rtsp://'+c.ip+'/stream1</span></div>'+
+      '<div class="kv"><span>'+t("cam_kv_res")+'</span><span class="mono" style="direction:ltr;">'+c.res+'</span></div>'+
+      '<div class="kv"><span>'+t("cam_kv_fps")+'</span><span class="mono" style="direction:ltr;">'+c.fps+' fps</span></div>'+
       '<div class="kv"><span>'+t("cam_kv_health")+'</span><span style="color:'+healthColor+'">'+camHealthLabel(health)+'</span></div>'+
     '</div>';
   }).join("");
