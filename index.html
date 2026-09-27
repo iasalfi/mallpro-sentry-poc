@@ -449,8 +449,9 @@
   .site-name-row b{ color:var(--text); display:block; font-size:12.5px; }
 
   /* ---------- location / map ---------- */
-  .map-schematic{ position:relative; border-radius:10px; overflow:hidden; background:linear-gradient(160deg,#0e1e2c,#0a141f); border:1px solid var(--border-soft); }
+  .map-schematic{ position:relative; border-radius:10px; overflow:hidden; background:linear-gradient(160deg,#0e1e2c,#0a141f); border:1px solid var(--border-soft); min-height:260px; }
   .map-schematic svg{ width:100%; display:block; }
+  .map-schematic iframe{ width:100%; height:260px; border:0; display:block; }
   .map-attrib{ font-size:10px; color:var(--text-faint); margin-top:6px; text-align:center; }
   .map-attrib a{ color:var(--text-faint); text-decoration:underline; }
 
@@ -948,6 +949,7 @@
         <div class="card">
           <div class="card-title"><span data-i18n="zones_heatmap_title">Traffic heatmap</span> <span class="heat-legend"><span class="sw" style="background:#1d2532"></span><span data-i18n="heat_low">low</span> <span class="sw" style="background:var(--accent)"></span><span data-i18n="heat_high">high</span></span></div>
           <canvas id="heatCanvas" width="320" height="220" style="width:100%; border-radius:8px; display:block;"></canvas>
+          <div class="analytics-sub" style="margin:8px 0 0;" data-i18n="heatmap_caption">Sections match the Sales Floor camera's four aisles, left to right.</div>
           <div class="head-controls" style="margin-top:10px;"><button class="btn small" id="heatReset" data-i18n="clear_heatmap">Clear heatmap</button></div>
         </div>
       </div>
@@ -1125,6 +1127,39 @@
           <div class="eyebrow" data-i18n="an_eyebrow">Predictive layer</div>
           <h1 class="page-title" data-i18n="an_title">Analytics &amp; predictions</h1>
           <p class="page-desc" data-i18n="an_desc">Forecasts and risk scoring built on top of this site's live feed &mdash; where footfall is heading, when it peaks, and where loss-prevention risk is trending.</p>
+        </div>
+      </div>
+
+      <div class="analytics-card" style="margin-bottom:14px;">
+        <div class="card-title" data-i18n="an_filters_title">Filters</div>
+        <div class="analytics-sub" id="anFilterSummary" style="margin-top:-6px;">&nbsp;</div>
+        <div class="grid cols-3">
+          <div>
+            <label style="font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); display:block; margin-bottom:6px;" data-i18n="an_filter_range">Time range</label>
+            <div class="chip-row" id="anRangeFilter">
+              <span class="chip" data-range="7" data-i18n="range_7">7 days</span>
+              <span class="chip active" data-range="14" data-i18n="range_14">14 days</span>
+              <span class="chip" data-range="30" data-i18n="range_30">30 days</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); display:block; margin-bottom:6px;" data-i18n="an_filter_zone">Zone</label>
+            <div class="chip-row" id="anZoneFilter">
+              <span class="chip active" data-zone="all" data-i18n="zone_all">All zones</span>
+              <span class="chip" data-zone="cam1" data-i18n="zone_entrance_a">Entrance A</span>
+              <span class="chip" data-zone="cam2" data-i18n="zone_apparel">Apparel Floor</span>
+              <span class="chip" data-zone="cam3" data-i18n="zone_till">Till Line</span>
+              <span class="chip" data-zone="cam4" data-i18n="zone_restricted_corridor">Restricted Corridor</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); display:block; margin-bottom:6px;" data-i18n="an_filter_segment">Visitor segment</label>
+            <div class="chip-row" id="anSegmentFilter">
+              <span class="chip active" data-segment="all" data-i18n="segment_all">All visitors</span>
+              <span class="chip" data-segment="M" data-i18n="segment_male">Male</span>
+              <span class="chip" data-segment="F" data-i18n="segment_female">Female</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1433,7 +1468,23 @@ var STR = {
   loyalty_1visit:{en:"1 visit", ar:"زيارة واحدة"}, loyalty_2visits:{en:"2 visits", ar:"زيارتان"},
   loyalty_3visits:{en:"3 visits", ar:"3 زيارات"}, loyalty_4plus:{en:"4+ visits", ar:"4+ زيارات"},
   day_sun:{en:"Sun", ar:"أحد"}, day_mon:{en:"Mon", ar:"إثن"}, day_tue:{en:"Tue", ar:"ثلا"},
-  day_wed:{en:"Wed", ar:"أرب"}, day_thu:{en:"Thu", ar:"خمي"}, day_fri:{en:"Fri", ar:"جمعة"}, day_sat:{en:"Sat", ar:"سبت"}
+  day_wed:{en:"Wed", ar:"أرب"}, day_thu:{en:"Thu", ar:"خمي"}, day_fri:{en:"Fri", ar:"جمعة"}, day_sat:{en:"Sat", ar:"سبت"},
+
+  zone_apparel_aisle:{en:"Apparel Aisle", ar:"ممر الملابس"},
+  zone_footwear_aisle:{en:"Footwear Aisle", ar:"ممر الأحذية"},
+  zone_electronics_aisle:{en:"Electronics Aisle", ar:"ممر الإلكترونيات"},
+  zone_accessories_aisle:{en:"Accessories Aisle", ar:"ممر الإكسسوارات"},
+  zone_concourse:{en:"Main Concourse", ar:"الممر الرئيسي"},
+  heatmap_caption:{en:"Sections match the Sales Floor camera's four aisles, left to right.", ar:"الأقسام تطابق ممرات كاميرا صالة المبيعات الأربعة، من اليسار إلى اليمين."},
+
+  an_filters_title:{en:"Filters", ar:"عوامل التصفية"},
+  an_filter_range:{en:"Time range", ar:"النطاق الزمني"},
+  an_filter_zone:{en:"Zone", ar:"المنطقة"},
+  an_filter_segment:{en:"Visitor segment", ar:"شريحة الزوار"},
+  range_7:{en:"7 days", ar:"7 أيام"}, range_14:{en:"14 days", ar:"14 يومًا"}, range_30:{en:"30 days", ar:"30 يومًا"},
+  zone_all:{en:"All zones", ar:"كل المناطق"},
+  segment_all:{en:"All visitors", ar:"كل الزوار"}, segment_male:{en:"Male", ar:"ذكور"}, segment_female:{en:"Female", ar:"إناث"},
+  an_filtered_by:{en:"Filtered: {zone} &middot; {segment}", ar:"مُصفّى: {zone} &middot; {segment}"}
 };
 var currentLang = "en";
 function t(key, vars){
@@ -1605,44 +1656,19 @@ var S = {
 CAMERAS.forEach(function(c){ S.camHealth[c.id] = "online"; });
 
 /* ---------------- site switching ---------------- */
-function siteLat2Y(lat){
-  // schematic vertical position: crude linear map over the ~15km coastal span we use
-  var minLat=21.48, maxLat=21.63;
-  return clamp((maxLat-lat)/(maxLat-minLat), 0, 1);
+function buildOsmEmbedUrl(site){
+  // Standard OpenStreetMap "export/embed" street map, centred and pinned on the site.
+  var dLng = 0.012, dLat = 0.008;
+  var west = (site.lng-dLng).toFixed(5), east = (site.lng+dLng).toFixed(5);
+  var south = (site.lat-dLat).toFixed(5), north = (site.lat+dLat).toFixed(5);
+  return "https://www.openstreetmap.org/export/embed.html?bbox="+west+"%2C"+south+"%2C"+east+"%2C"+north+
+    "&layer=mapnik&marker="+site.lat+"%2C"+site.lng;
 }
 function drawMapSchematic(site){
   var host = $("#mapSchematic");
   if(!host) return;
-  var W=380,H=220;
-  var frac = siteLat2Y(site.lat);
-  var pinY = 20 + frac*(H-40);
-  var coastX = 70 + Math.sin(frac*6)*14;
-  var parts = [];
-  parts.push('<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">');
-  parts.push('<rect width="'+W+'" height="'+H+'" fill="#0a141f"/>');
-  // sea
-  parts.push('<path d="M0 0 L'+coastX+' 0 C '+(coastX-20)+' '+(H*0.3)+', '+(coastX+15)+' '+(H*0.5)+', '+coastX+' '+H+' L0 '+H+' Z" fill="#123246"/>');
-  parts.push('<text x="26" y="'+(H-14)+'" font-size="9" fill="#4a90b8" font-family="IBM Plex Mono, monospace">RED SEA</text>');
-  // land grid streets
-  for(var gx=coastX+30; gx<W; gx+=34){ parts.push('<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="'+H+'" stroke="rgba(255,255,255,.05)" stroke-width="1"/>'); }
-  for(var gy=20; gy<H; gy+=32){ parts.push('<line x1="'+coastX+'" y1="'+gy+'" x2="'+W+'" y2="'+gy+'" stroke="rgba(255,255,255,.05)" stroke-width="1"/>'); }
-  // the other two site pins, dimmed
-  Object.keys(SITES).forEach(function(k){
-    var s = SITES[k];
-    var y = 20 + siteLat2Y(s.lat)*(H-40);
-    var active = s.id===site.id;
-    if(!active){
-      parts.push('<circle cx="'+(coastX+70)+'" cy="'+y+'" r="4" fill="rgba(245,166,35,.35)"/>');
-    }
-  });
-  // active pin
-  parts.push('<g>'+
-    '<circle cx="'+(coastX+70)+'" cy="'+pinY+'" r="9" fill="rgba(245,166,35,.18)"><animate attributeName="r" values="9;14;9" dur="2.2s" repeatCount="indefinite"/></circle>'+
-    '<circle cx="'+(coastX+70)+'" cy="'+pinY+'" r="6" fill="var(--accent)" stroke="#1a1000" stroke-width="1.5"/>'+
-  '</g>');
-  parts.push('<text x="10" y="16" font-size="9" fill="#5b7d94" font-family=\'IBM Plex Mono, monospace\'>JEDDAH &middot; SCHEMATIC VIEW</text>');
-  parts.push('</svg>');
-  host.innerHTML = parts.join("");
+  var url = buildOsmEmbedUrl(site);
+  host.innerHTML = '<iframe src="'+url+'" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="'+esc(t(site.nameKey))+' &mdash; OpenStreetMap"></iframe>';
 }
 function updateSiteDependentUI(){
   var site = SITES[currentSiteId];
@@ -2097,6 +2123,12 @@ function stepSales(dt){
   camState.sales = list.filter(function(a){ return a.t < 40; });
 }
 var salesCue = null;
+var SALES_SECTIONS = [
+  {key:"zone_apparel_aisle", cx:87},
+  {key:"zone_footwear_aisle", cx:227},
+  {key:"zone_electronics_aisle", cx:367},
+  {key:"zone_accessories_aisle", cx:507}
+];
 function drawSales(ctx){
   var W=640,H=360;
   ctx.clearRect(0,0,W,H);
@@ -2108,6 +2140,12 @@ function drawSales(ctx){
   for(var i=0;i<4;i++){ ctx.fillRect(70+i*140, 40, 34, 280); }
   ctx.strokeStyle="rgba(120,150,200,.25)"; ctx.lineWidth=1;
   for(var i2=0;i2<4;i2++){ ctx.strokeRect(70+i2*140, 40, 34, 280); }
+  // section labels -- calls out which part of the mall each aisle represents
+  ctx.textAlign="center"; ctx.font="9px IBM Plex Mono"; ctx.fillStyle="rgba(190,208,235,.85)";
+  SALES_SECTIONS.forEach(function(s){ ctx.fillText(t(s.key).toUpperCase(), s.cx, 32); });
+  ctx.fillStyle="rgba(245,166,35,.75)";
+  ctx.fillText(t("zone_concourse").toUpperCase(), W/2, 350);
+  ctx.textAlign="start";
   camState.sales.forEach(function(a){
     var isCue = salesCue && salesCue.id===a.id;
     var boxColor = isCue ? "#f2545b" : "#ffd166";
@@ -2208,6 +2246,23 @@ function drawHeat(){
       ctx.fillRect(cIdx*cw, r*ch, cw+0.5, ch+0.5);
     }
   }
+  // overlay section boundaries + labels so the heat clearly maps to a mall section
+  var scale = W/640;
+  ctx.strokeStyle = "rgba(255,255,255,.14)"; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+  [70,104,210,244,350,384,490,524].forEach(function(x){
+    ctx.beginPath(); ctx.moveTo(x*scale,0); ctx.lineTo(x*scale,H); ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  ctx.textAlign="center"; ctx.font="7px IBM Plex Mono";
+  SALES_SECTIONS.forEach(function(s){
+    ctx.fillStyle="rgba(255,255,255,.85)";
+    var words = t(s.key).split(" ");
+    var label = (currentLang==="ar" ? words[words.length-1] : words[0]).toUpperCase();
+    ctx.fillText(label, s.cx*scale, 11);
+  });
+  ctx.fillStyle="rgba(255,255,255,.55)";
+  ctx.fillText(t("zone_concourse").toUpperCase(), W/2, H-5);
+  ctx.textAlign="start";
 }
 $("#heatReset").addEventListener("click", function(){
   heatGrid.g.forEach(function(row){ row.fill(0); });
@@ -2504,32 +2559,63 @@ function drawRiskChart(pts){
   svg.innerHTML = '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>'+
     '<circle cx="'+lastX.toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="4" fill="'+color+'"/>';
 }
+var anFilters = { range:14, zone:"all", segment:"all" };
+var ZONE_SHARE = { cam1:0.32, cam2:0.34, cam3:0.20, cam4:0.14 };
+var ZONE_HOUR_CENTER = { cam1:13.5, cam2:19.5, cam3:20, cam4:15 };
+function zoneNameFor(zoneId){
+  if(zoneId==="all") return t("zone_all");
+  var c = BASE_CAMERAS.find(function(x){ return x.id===zoneId; });
+  return c ? t(c.zoneKey) : zoneId;
+}
+function segmentNameFor(seg){
+  return seg==="all" ? t("segment_all") : (seg==="M" ? t("segment_male") : t("segment_female"));
+}
+function bandCountsForSegment(segment){
+  var counts = AGE_BANDS.map(function(){ return 0; });
+  S.visitors.forEach(function(v){
+    if(segment!=="all" && v.gender!==segment) return;
+    var idx = AGE_BANDS.indexOf(v.ageBand);
+    if(idx>=0) counts[idx]++;
+  });
+  return counts;
+}
 function renderAnalytics(){
   var host = $("#page-analytics"); if(!host) return;
   var site = SITES[currentSiteId];
   var cap = site.capacity;
+  var f = anFilters;
 
-  // ---- footfall history + 3-day forecast ----
-  var totalDays = 17;
+  var zoneMult = f.zone==="all" ? 1 : (ZONE_SHARE[f.zone]||0.2);
+  var genderTotal = S.demo.male+S.demo.female;
+  var segMult = f.segment==="all" ? 1 : (genderTotal ? (f.segment==="M"?S.demo.male:S.demo.female)/genderTotal : 0.5);
+  var capEff = cap*zoneMult*segMult;
+
+  var elSummary = $("#anFilterSummary");
+  if(elSummary) elSummary.innerHTML = t("an_filtered_by",{zone:zoneNameFor(f.zone), segment:segmentNameFor(f.segment)});
+
+  // ---- footfall history + N-day forecast ----
+  var range = f.range;
+  var totalDays = range+3;
   var series = [];
   for(var i=0;i<totalDays;i++){
     var weekday = i%7;
     var weekendBoost = (weekday===4||weekday===5) ? 1.18 : 1;
-    var noise = 0.82 + seededRand(site.lat*1000+i)*0.36;
+    var noise = 0.82 + seededRand(site.lat*1000+i+f.zone.length*3+f.segment.length*7)*0.36;
     var growth = 1 + i*0.006;
-    series.push(Math.round(cap*0.72*weekendBoost*noise*growth));
+    series.push(Math.round(capEff*0.72*weekendBoost*noise*growth));
   }
-  var hist = series.slice(0,14), forecast = series.slice(14);
+  var hist = series.slice(0,range), forecast = series.slice(range);
   var lastHist = hist[hist.length-1];
   var peak = Math.max.apply(null, forecast);
   var trendPct = Math.round((peak-lastHist)/Math.max(1,lastHist)*100);
   var elPeak = $("#anForecastPeak"); if(elPeak) elPeak.textContent = peak;
   var elTrend = $("#anForecastTrend");
-  if(elTrend){ elTrend.textContent = (trendPct>=0?"+":"")+trendPct+"%"; elTrend.className = "trend-chip "+(trendPct>=0?"up":"down"); }
+  if(elTrend){ elTrend.textContent = (trendPct>=0?"+":"")+trendPct+"%"; elTrend.className = "trend-chip mono "+(trendPct>=0?"up":"down"); elTrend.style.direction="ltr"; }
   drawForecastChart(hist, forecast);
 
-  // ---- peak-hour heatmap ----
+  // ---- peak-hour heatmap (zone-aware) ----
   var hours = []; for(var h=10;h<=22;h++) hours.push(h);
+  var hourCenter = f.zone==="all" ? 19.5 : (ZONE_HOUR_CENTER[f.zone]||19.5);
   var grid = [];
   var busiest = {day:0,hour:hours[0],v:-1};
   for(var d=0;d<7;d++){
@@ -2537,8 +2623,8 @@ function renderAnalytics(){
     var weekendBoost2 = (d===4||d===5) ? 1.3 : 1;
     for(var hi=0;hi<hours.length;hi++){
       var hour = hours[hi];
-      var evenPeak = Math.exp(-Math.pow(hour-19.5,2)/18);
-      var val = cap*0.9*evenPeak*weekendBoost2*(0.85+seededRand(site.lng+d*7+hour)*0.3);
+      var evenPeak = Math.exp(-Math.pow(hour-hourCenter,2)/18);
+      var val = capEff*0.9*evenPeak*weekendBoost2*(0.85+seededRand(site.lng+d*7+hour)*0.3);
       row.push(val);
       if(val>busiest.v){ busiest = {day:d,hour:hour,v:val}; }
     }
@@ -2548,35 +2634,38 @@ function renderAnalytics(){
   var elBH = $("#anBusiestHour"); if(elBH) elBH.textContent = busiest.hour+":00–"+(busiest.hour+1)+":00";
   var elBD = $("#anBusiestDay"); if(elBD) elBD.textContent = t(DAY_KEYS[busiest.day])+(currentLang==="ar"?" · أعلى ازدحام متوقع":" · highest predicted footfall");
 
-  // ---- demographic mix projection ----
-  var d0 = S.demo;
-  var seenTotal = d0.male+d0.female;
-  var femaleShare = seenTotal ? d0.female/seenTotal : 0.5;
-  var projTotalWeek = Math.round(cap*7*0.55);
-  var bandShares = AGE_BANDS.map(function(b){ return seenTotal ? (d0.bands[b]||0) : 1; });
-  var bandSum = bandShares.reduce(function(a,b){return a+b;},0) || 1;
+  // ---- demographic mix projection (segment-aware) ----
+  var bandCounts = bandCountsForSegment(f.segment);
+  var bandSum = bandCounts.reduce(function(a,b){return a+b;},0);
+  var hasData = bandSum>0;
+  var bandShares = hasData ? bandCounts : AGE_BANDS.map(function(){return 1;});
+  var shareSum = bandShares.reduce(function(a,b){return a+b;},0) || 1;
+  var projTotalWeek = Math.round(cap*7*0.55*zoneMult*segMult);
   var maxShare = Math.max.apply(null, bandShares);
+  var barColor = f.segment==="M" ? "var(--info)" : (f.segment==="F" ? "var(--rose)" : "linear-gradient(180deg,var(--rose),var(--info))");
   var demoHost = $("#anDemoBars");
   if(demoHost){
     demoHost.innerHTML = AGE_BANDS.map(function(b,idx){
-      var share = bandShares[idx]/bandSum;
+      var share = bandShares[idx]/shareSum;
       var count = Math.round(projTotalWeek*share);
       var hpct = Math.max(4, Math.round(bandShares[idx]/maxShare*100));
-      return '<div class="bar-col"><b>'+count+'</b><div class="bar" style="height:80px;"><i style="height:'+hpct+'%; background:linear-gradient(180deg,var(--rose),var(--info));"></i></div><span>'+b+'</span></div>';
+      return '<div class="bar-col"><b>'+count+'</b><div class="bar" style="height:80px;"><i style="height:'+hpct+'%; background:'+barColor+';"></i></div><span>'+b+'</span></div>';
     }).join("");
   }
 
-  // ---- loss-prevention risk index & trend ----
-  var confirmed = S.alerts.filter(function(a){return a.status==="confirmed";}).length;
-  var falsed = S.alerts.filter(function(a){return a.status==="false";}).length;
-  var openCues = S.alerts.filter(function(a){return a.status==="new";}).length;
+  // ---- loss-prevention risk index & trend (zone-aware) ----
+  var relevantAlerts = f.zone==="all" ? S.alerts : S.alerts.filter(function(a){ return a.camera===f.zone; });
+  var confirmed = relevantAlerts.filter(function(a){return a.status==="confirmed";}).length;
+  var falsed = relevantAlerts.filter(function(a){return a.status==="false";}).length;
+  var openCues = relevantAlerts.filter(function(a){return a.status==="new";}).length;
   var decided = confirmed+falsed;
-  var confirmRate = decided ? confirmed/decided : 0.3;
-  var baseRisk = 18 + confirmRate*45 + Math.min(20, openCues*3) + (S.afterHours?12:0) + (S.queue>=8?8:0);
+  var confirmRate = decided ? confirmed/decided : (f.zone==="all" ? 0.3 : 0.15);
+  var baseRisk = 14 + confirmRate*45 + Math.min(20, openCues*3) + (S.afterHours && (f.zone==="all"||f.zone==="cam4")?12:0) + (S.queue>=8 && (f.zone==="all"||f.zone==="cam3")?8:0);
   var riskPts = [];
-  for(var rd=0;rd<14;rd++){
-    var wobble = (seededRand(site.lat+rd*3.1)-0.5)*20;
-    riskPts.push(clamp(Math.round(baseRisk*(0.7+rd*0.02)+wobble), 4, 96));
+  var riskDays = Math.min(range,14);
+  for(var rd=0;rd<riskDays;rd++){
+    var wobble = (seededRand(site.lat+rd*3.1+f.zone.length*11)-0.5)*20;
+    riskPts.push(clamp(Math.round(baseRisk*(0.7+rd*0.02)+wobble), 2, 96));
   }
   var riskNow = riskPts[riskPts.length-1];
   var elRisk = $("#anRiskScore"); if(elRisk) elRisk.textContent = riskNow;
@@ -2589,9 +2678,10 @@ function renderAnalytics(){
   }
   drawRiskChart(riskPts);
 
-  // ---- visitor loyalty distribution ----
+  // ---- visitor loyalty distribution (segment-aware) ----
+  var pool = f.segment==="all" ? S.identityPool : S.identityPool.filter(function(p){ return p.gender===f.segment; });
   var buckets = {1:0,2:0,3:0,"4+":0};
-  S.identityPool.forEach(function(p){
+  pool.forEach(function(p){
     var n = p.visits.length;
     if(n<=1) buckets[1]++; else if(n===2) buckets[2]++; else if(n===3) buckets[3]++; else buckets["4+"]++;
   });
@@ -2606,6 +2696,30 @@ function renderAnalytics(){
     }).join("");
   }
 }
+$all("#anRangeFilter .chip").forEach(function(c){
+  c.addEventListener("click", function(){
+    $all("#anRangeFilter .chip").forEach(function(x){ x.classList.remove("active"); });
+    c.classList.add("active");
+    anFilters.range = parseInt(c.dataset.range,10);
+    renderAnalytics();
+  });
+});
+$all("#anZoneFilter .chip").forEach(function(c){
+  c.addEventListener("click", function(){
+    $all("#anZoneFilter .chip").forEach(function(x){ x.classList.remove("active"); });
+    c.classList.add("active");
+    anFilters.zone = c.dataset.zone;
+    renderAnalytics();
+  });
+});
+$all("#anSegmentFilter .chip").forEach(function(c){
+  c.addEventListener("click", function(){
+    $all("#anSegmentFilter .chip").forEach(function(x){ x.classList.remove("active"); });
+    c.classList.add("active");
+    anFilters.segment = c.dataset.segment;
+    renderAnalytics();
+  });
+});
 setInterval(function(){ if($("#page-analytics.active")) renderAnalytics(); }, 20000);
 
 /* ---------------- global controls ---------------- */
