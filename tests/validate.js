@@ -47,7 +47,7 @@ if (match) {
 }
 
 // 4. Spot-check the key workspaces exist so a bad edit can't silently drop a page
-["page-overview", "page-occupancy", "page-visitors", "page-loss", "page-zones", "page-cameras", "page-system", "page-report"].forEach((id) => {
+["page-overview", "page-occupancy", "page-visitors", "page-loss", "page-zones", "page-cameras", "page-system", "page-report", "page-analytics"].forEach((id) => {
   check(`section #${id} present`, html.includes('id="' + id + '"'));
 });
 
