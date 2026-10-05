@@ -435,6 +435,10 @@
   .live-widget .lw-body{ flex:1; min-width:0; }
   .live-widget .lw-time{ font-family:'Calibri', sans-serif; font-size:14px; font-weight:600; direction:ltr; }
   .live-widget .lw-date{ font-size:10.5px; color:var(--text-faint); }
+  .live-widget .lw-hijri{ color:var(--text-dim); }
+  .live-widget .lw-yours{ margin-top:2px; }
+  .live-widget .lw-tz{ white-space:nowrap; font-size:10px; font-weight:600; color:var(--text-faint); margin-inline-start:5px; letter-spacing:.04em; }
+  .live-widget .lw-date, .live-widget .lw-time{ unicode-bidi:plaintext; }
   .live-widget .lw-temp{ font-family:'Calibri', sans-serif; font-size:13px; color:var(--accent-strong); text-align:right; flex:none; direction:ltr; }
 
   /* ---------- overview KPI trend & Support/SLA ---------- */
@@ -791,8 +795,10 @@
     <div class="live-widget" id="sidebarLiveWidget">
       <div class="lw-icon" id="sidebarLiveIcon"></div>
       <div class="lw-body">
-        <div class="lw-time mono" id="sidebarLiveTime">--:--:--</div>
+        <div class="lw-time" id="sidebarLiveTime">--:--:--</div>
         <div class="lw-date" id="sidebarLiveDate">&nbsp;</div>
+        <div class="lw-date lw-hijri" id="sidebarLiveHijri">&nbsp;</div>
+        <div class="lw-date lw-yours" id="sidebarLiveYours" hidden></div>
       </div>
       <div class="lw-temp" id="sidebarLiveTemp">--&deg;C</div>
     </div>
@@ -1760,6 +1766,7 @@ var STR = {
   jr5_p:{en:"Compare footfall and estimated revenue across tenants and review staff coverage per shift, for leasing and staffing decisions.", ar:"قارن حركة الزوار والإيراد التقديري بين المستأجرين وراجع تغطية الموظفين لكل وردية لقرارات التأجير والتوظيف."},
   jr5_w:{en:"Analytics, Revenue Estimate", ar:"التحليلات، تقدير الإيرادات"},
   cam_live:{en:"LIVE", ar:"مباشر"},
+  lw_yours:{en:"Your time", ar:"وقتك"},
   lang_title:{en:"Switch language", ar:"تبديل اللغة"}, theme_title:{en:"Switch theme", ar:"تبديل المظهر"},
 
   /* phase 3: analytics */
@@ -4573,23 +4580,46 @@ $("#langToggle").addEventListener("click", function(){ applyLang(currentLang==="
 $("#themeToggle").addEventListener("click", function(){ applyTheme(document.documentElement.dataset.theme==="light" ? "dark" : "light"); });
 
 /* ---------------- clocks and live widgets ---------------- */
+var KSA_TZ = "Asia/Riyadh";
+function ksaParts(now){
+  try{
+    var f = new Intl.DateTimeFormat("en-GB",{timeZone:KSA_TZ,hour12:false,hour:"2-digit",minute:"2-digit",second:"2-digit"}).formatToParts(now), o={};
+    f.forEach(function(p){ o[p.type]=p.value; });
+    return {h:(+o.hour)%24, m:+o.minute, s:+o.second};
+  }catch(e){
+    var u = new Date(now.getTime()+now.getTimezoneOffset()*60000+3*3600000);
+    return {h:u.getHours(), m:u.getMinutes(), s:u.getSeconds()};
+  }
+}
 function jeddahTemp(date){
-  var hourFrac = date.getHours() + date.getMinutes()/60;
+  var k = ksaParts(date), hourFrac = k.h + k.m/60;
   return 32 + 8*Math.cos((hourFrac-15.5)/24*2*Math.PI);
 }
 function weatherIconSVG(date){
-  var h = date.getHours();
+  var h = ksaParts(date).h;
   return (h>=6 && h<18)
     ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent-strong)" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>'
     : '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--info)" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>';
 }
 function updateLiveWidgets(now){
-  var dateStr;
-  try{ dateStr = now.toLocaleDateString(currentLang==="ar" ? "ar-SA-u-ca-gregory" : "en-GB", {weekday:"short", day:"numeric", month:"short"}); }
-  catch(e){ dateStr = now.toDateString(); }
-  $("#sidebarLiveTime").textContent = fmtClock(now);
-  $("#sidebarLiveDate").textContent = dateStr;
-  $("#sidebarLiveTemp").textContent = Math.round(jeddahTemp(now)) + "°C";
+  var ar = currentLang==="ar", greg, hij, k = ksaParts(now);
+  try{ greg = now.toLocaleDateString(ar ? "ar-SA-u-ca-gregory-nu-arab" : "en-GB", {timeZone:KSA_TZ, weekday:"short", day:"numeric", month:"short"}); }
+  catch(e){ greg = now.toDateString(); }
+  try{ hij = now.toLocaleDateString(ar ? "ar-SA-u-ca-islamic-umalqura-nu-arab" : "en-GB-u-ca-islamic-umalqura", {timeZone:KSA_TZ, day:"numeric", month:"long", year:"numeric"}); }
+  catch(e){ hij = ""; }
+  var tm = pad2(k.h)+":"+pad2(k.m)+":"+pad2(k.s);
+  if(ar) tm = toArabicDigits(tm);
+  var tz = ar ? "السعودية" : "KSA";
+  $("#sidebarLiveTime").innerHTML = '<bdi dir="ltr">'+tm+'</bdi><span class="lw-tz">'+tz+'</span>';
+  $("#sidebarLiveDate").textContent = greg;
+  $("#sidebarLiveHijri").textContent = hij;
+  var yours = $("#sidebarLiveYours");
+  if(-now.getTimezoneOffset() !== 180){
+    var yt = fmtClock(now); if(ar) yt = toArabicDigits(yt);
+    yours.hidden = false;
+    yours.innerHTML = t("lw_yours")+' <bdi dir="ltr">'+yt+'</bdi>';
+  } else yours.hidden = true;
+  $("#sidebarLiveTemp").textContent = (ar ? toArabicDigits(String(Math.round(jeddahTemp(now)))) : Math.round(jeddahTemp(now))) + "°C";
   $("#sidebarLiveIcon").innerHTML = weatherIconSVG(now);
 }
 function tickClocks(){
