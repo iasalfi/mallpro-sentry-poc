@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Lightweight CI test for the MallPro Sentry static site.
+ * Lightweight CI test for the MallPro AI Vision static site.
  * No build step and no runtime deps -- this just proves the shipped
  * HTML is well-formed and the embedded JS is syntactically valid
  * before the deploy job publishes it to GitHub Pages.
@@ -47,7 +47,7 @@ if (match) {
 }
 
 // 4. Spot-check the key workspaces exist so a bad edit can't silently drop a page
-["page-overview", "page-occupancy", "page-visitors", "page-loss", "page-zones", "page-cameras", "page-system", "page-report", "page-analytics", "page-support"].forEach((id) => {
+["page-overview", "page-tenants", "page-revenue", "page-staff", "page-zones", "page-events", "page-analytics", "page-report", "page-cameras", "page-system", "page-support", "page-roadmap"].forEach((id) => {
   check(`section #${id} present`, html.includes('id="' + id + '"'));
 });
 
